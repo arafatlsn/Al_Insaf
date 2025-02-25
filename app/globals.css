@@ -4,11 +4,12 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #F8F8FA;
-  --primary: #80EF80;
-  --seconday: #E3F0A3;
-  --third: #BADBA2;
-  --button: #42D674;
+  --foreground: #f8f8fa;
+  --primary: #80ef80;
+  --secondary: #e3f0a3;
+  --third: #badba2;
+  --button: #42d674;
+  --lightText: #282829;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,7 +20,20 @@
 }
 
 body {
-  color: var(--foreground);
+  color: var(--lightText);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CUSTOM TAILWIND CLASSES  */
+@layer components {
+  .lgXYPadding {
+    @apply px-[1rem] py-[.8rem] md:px-[1.2rem] md:py-[1rem] lg:px-[1.5rem] lg:py-[1.2rem] xl:px-[1.7rem] xl:py-[1.4rem];
+  }
+  .mdXYPadding {
+    @apply px-[.8rem] py-[.6rem] md:px-[1rem] md:py-[.7rem] lg:px-[1.4rem] lg:py-[1.2rem] xl:px-[1.8rem] xl:py-[1.4rem];
+  }
+  .smXYPadding {
+    @apply px-[.6rem] py-[.5rem] md:px-[.8rem] md:py-[.6rem];
+  }
 }

@@ -1,7 +1,9 @@
 const NavBar = () => {
   return (
     <div>
-      <p className="text-button bg-foreground">this is navbar</p>
+      <p className="smXYPadding text-button bg-foreground border-b-[1px]">
+        this is navbar
+      </p>
     </div>
   );
 };
