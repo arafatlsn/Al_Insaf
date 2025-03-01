@@ -6,10 +6,9 @@
   --background: #ffffff;
   --foreground: #f8f8fa;
   --primary: #80ef80;
-  --secondary: #e3f0a3;
+  --seconday: #e3f0a3;
   --third: #badba2;
   --button: #42d674;
-  --lightText: #282829;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,12 +20,15 @@
 
 body {
   color: var(--lightText);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* CUSTOM TAILWIND CLASSES  */
 @layer components {
+  /* FONTS */
+  .mdFont {
+    @apply text-[14px] md:text-[18px] lg:text-[20px] xl:text-[22px];
+  }
+  /* PADDING */
   .lgXYPadding {
     @apply px-[1rem] py-[.8rem] md:px-[1.2rem] md:py-[1rem] lg:px-[1.5rem] lg:py-[1.2rem] xl:px-[1.7rem] xl:py-[1.4rem];
   }
@@ -36,4 +38,20 @@ body {
   .smXYPadding {
     @apply px-[.6rem] py-[.5rem] md:px-[.8rem] md:py-[.6rem];
   }
+  /* SHADOW */
+  .cShadow {
+    @apply shadow-[0px_4px_6px_0px_rgba(71,_85,_105,_0.08)];
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

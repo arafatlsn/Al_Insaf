@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const SideBar = () => {
   return (
-    <div className="h-full bg-foreground">
+    <div className="h-full bg-background">
       <h2 className="mdXYPadding text-primary font-bold ">Al Insaf</h2>
       <ul className="lgXYPadding">
         {sidebarOptions.map((el) => (

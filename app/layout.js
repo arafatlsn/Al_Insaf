@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/Common/NavBar";
 import SideBar from "@/components/Common/SideBar";
+import IndexWrapper from "@/Providers/IndexWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,9 @@ export default function RootLayout({ children }) {
           </div>
           <div className="grow">
             <NavBar />
-            <div className="smXYPadding">{children}</div>
+            <div className="max-h-full smXYPadding bg-foreground">
+              <IndexWrapper>{children}</IndexWrapper>
+            </div>
           </div>
         </div>
       </body>
