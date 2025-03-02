@@ -1,6 +1,7 @@
 import React from "react";
 import InputLabel from "../Common/InputLabel";
 import SelectComp from "../Common/SelectComp";
+import { productCategories, unitTypes } from "@/utils/Constants";
 
 const BasicInfoFields = () => {
   return (
@@ -17,7 +18,7 @@ const BasicInfoFields = () => {
           />
         </div>
         <div>
-          <SelectComp label="Product Category" />
+          <SelectComp label="Product Category" options={productCategories} />
         </div>
         <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
           <div>
@@ -38,6 +39,42 @@ const BasicInfoFields = () => {
               name="buying_price"
               id="buying_price"
               placeHolder="Buying Price"
+            />
+          </div>
+        </div>
+        <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
+          <div>
+            <InputLabel
+              title="Stock"
+              type="number"
+              htmlFor="stock"
+              name="stock"
+              id="stock"
+              placeHolder="Product Stock"
+            />
+          </div>
+          <div>
+            <InputLabel
+              title="Stock keeping unit"
+              htmlFor="sku"
+              name="sku"
+              id="sku"
+              placeHolder="ex. 5kg-teer-mustardoil"
+            />
+          </div>
+        </div>
+        <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
+          <div>
+            <SelectComp label="Unit Type" options={unitTypes} />
+          </div>
+          <div>
+            <InputLabel
+              title="Expired Date"
+              type="date"
+              htmlFor="expired_date"
+              name="expired_date"
+              id="expired_date"
+              placeHolder="dd-mm-yyyy"
             />
           </div>
         </div>

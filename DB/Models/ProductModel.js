@@ -12,6 +12,16 @@ const ProductSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      enum: [
+        "Fruits",
+        "Vegetables",
+        "Dairy",
+        "Meat",
+        "Bakery",
+        "Beverages",
+        "Snacks",
+        "Other",
+      ],
     },
     price: {
       type: Number,
@@ -29,6 +39,10 @@ const ProductSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    supplier: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Supplier",
+    },
     sku: {
       type: String,
       required: true,
@@ -40,6 +54,10 @@ const ProductSchema = new mongoose.Schema(
     },
     expiryDate: {
       type: Date,
+    },
+    addedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }
