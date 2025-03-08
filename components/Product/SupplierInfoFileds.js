@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import SelectCompObj from "../Common/SelectCompObj";
 import { suppliers } from "@/utils/Constants";
 import InputLabel from "../Common/InputLabel";
@@ -7,7 +6,6 @@ import Button from "../Common/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
 import { useCreateProductMutation } from "@/Redux/APIs/ProductApi";
-// import toast from "react-hot-toast";
 
 const SupplierInfoFileds = () => {
   const dispatch = useDispatch();
