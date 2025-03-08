@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 const InputLabel = ({
@@ -7,6 +8,9 @@ const InputLabel = ({
   name,
   id,
   placeHolder,
+  value,
+  action,
+  actionFor,
 }) => {
   return (
     <div className="flex flex-col gap-[2px]">
@@ -19,6 +23,8 @@ const InputLabel = ({
         placeholder={placeHolder}
         name={name}
         id={id}
+        value={value}
+        onChange={(e) => action(actionFor, e.target.value)}
       />
     </div>
   );

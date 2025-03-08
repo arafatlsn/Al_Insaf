@@ -55,10 +55,10 @@ const ProductSchema = new mongoose.Schema(
     expiryDate: {
       type: Date,
     },
-    addedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+    // addedBy: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User",
+    // },
   },
   { timestamps: true }
 );

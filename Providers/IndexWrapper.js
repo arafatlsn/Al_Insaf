@@ -1,6 +1,7 @@
 "use client";
 import { Provider } from "react-redux";
 import { store } from "../Redux/store";
+// import { Toaster } from "react-hot-toast";
 
 const IndexWrapper = ({ children }) => {
   return <Provider store={store}>{children}</Provider>;

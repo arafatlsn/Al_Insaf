@@ -1,9 +1,26 @@
+"use client";
 import React from "react";
 import InputLabel from "../Common/InputLabel";
 import SelectComp from "../Common/SelectComp";
 import { productCategories, unitTypes } from "@/utils/Constants";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
 
 const BasicInfoFields = () => {
+  const dispatch = useDispatch();
+  // redux states
+  const {
+    name,
+    price,
+    buyingPrice,
+    stock,
+    sku,
+    expiryDate,
+  } = useSelector((state) => state.product_slice);
+  // dispatch function
+  const dispatcher = (objKey, value) => {
+    dispatch(updateProductSlice({ [objKey]: value }));
+  };
   return (
     <div className="bg-background smXYPadding rounded-[10px]">
       <h3 className="mdFont text-lightText mb-[1rem]">Basic Information</h3>
@@ -15,10 +32,13 @@ const BasicInfoFields = () => {
             name={"product_name"}
             id="product_name"
             placeHolder="Product Name"
+            value={name}
+            action={dispatcher}
+            actionFor="name"
           />
         </div>
         <div>
-          <SelectComp label="Product Category" options={productCategories} />
+          <SelectComp label="Product Category" options={productCategories} action={dispatcher} actionFor={"category"} />
         </div>
         <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
           <div>
@@ -29,6 +49,9 @@ const BasicInfoFields = () => {
               name="selling_price"
               id="selling_price"
               placeHolder="Selling Price"
+              value={price}
+              action={dispatcher}
+              actionFor={"price"}
             />
           </div>
           <div>
@@ -39,6 +62,9 @@ const BasicInfoFields = () => {
               name="buying_price"
               id="buying_price"
               placeHolder="Buying Price"
+              value={buyingPrice}
+              action={dispatcher}
+              actionFor={"buyingPrice"}
             />
           </div>
         </div>
@@ -51,6 +77,9 @@ const BasicInfoFields = () => {
               name="stock"
               id="stock"
               placeHolder="Product Stock"
+              value={stock}
+              action={dispatcher}
+              actionFor={"stock"}
             />
           </div>
           <div>
@@ -60,12 +89,15 @@ const BasicInfoFields = () => {
               name="sku"
               id="sku"
               placeHolder="ex. 5kg-teer-mustardoil"
+              value={sku}
+              action={dispatcher}
+              actionFor={"sku"}
             />
           </div>
         </div>
         <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
           <div>
-            <SelectComp label="Unit Type" options={unitTypes} />
+            <SelectComp label="Unit Type" options={unitTypes} action={dispatcher} actionFor={"unitType"} />
           </div>
           <div>
             <InputLabel
@@ -75,6 +107,9 @@ const BasicInfoFields = () => {
               name="expired_date"
               id="expired_date"
               placeHolder="dd-mm-yyyy"
+              value={expiryDate}
+              action={dispatcher}
+              actionFor={"expiryDate"}
             />
           </div>
         </div>

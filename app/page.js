@@ -5,7 +5,6 @@ export default async function Home() {
   try {
     const data = await fetch(`${url}/product`);
     products = await data.json();
-    console.log("console products", products);
   } catch (error) {}
   return (
     <div>

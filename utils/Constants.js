@@ -6,20 +6,20 @@ export const productCategories = [
   "Bakery",
   "Beverages",
   "Snacks",
-  "Other",
+  "Others",
 ];
 
-export const unitTypes = ["kg", "piece", "pack", "ml", "litre"];
+export const unitTypes = ["kg", "piece", "pack", "ml", "litre", "others"];
 
 export const suppliers = [
   {
-    id: 1,
+    _id: 1,
     name: "Pran Agro",
     contact: "+880????????",
     address: "323/A Baburhat",
   },
   {
-    id: 2,
+    _id: 2,
     name: "Bata Bazar",
     contact: "+880????????",
     address: "218/A Baburhat",

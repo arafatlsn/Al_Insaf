@@ -1,3 +1,4 @@
+"use client";
 import {
   Select,
   SelectContent,
@@ -6,10 +7,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
+import { useState } from "react";
 
-const SelectCompObj = ({ label = "Label", options }) => {
+const SelectCompObj = ({ label = "Label", options, action, actionFor }) => {
   return (
-    <Select>
+    <Select onValueChange={(e) => {
+      action(actionFor, e)
+      }}>
       <SelectGroup>
         <SelectLabel className="capitalize mb-[4px]">{label}</SelectLabel>
         <SelectTrigger className="w-full h-[40px] border-third focus:outline-none focus:ring-0 capitalize">
@@ -17,11 +21,18 @@ const SelectCompObj = ({ label = "Label", options }) => {
         </SelectTrigger>
         <SelectContent className="bg-foreground">
           {options?.map((el) => (
-            <SelectItem key={el?.id} value={el?.name} className="capitalize">
+            <SelectItem
+              key={el?._id}
+              value={el?._id}
+              className="capitalize"
+            >
               {`${el?.name} - ${el?.address}`}
             </SelectItem>
           ))}
-          <SelectItem value={"others"} className="capitalize">
+          <SelectItem
+            value={"others"}
+            className="capitalize"
+          >
             Others
           </SelectItem>
         </SelectContent>
