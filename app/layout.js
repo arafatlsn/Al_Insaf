@@ -1,4 +1,5 @@
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import NavBar from "@/components/Common/NavBar";
 import SideBar from "@/components/Common/SideBar";
 import IndexWrapper from "@/Providers/IndexWrapper";

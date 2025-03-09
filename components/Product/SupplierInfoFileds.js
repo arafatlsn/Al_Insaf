@@ -6,6 +6,8 @@ import Button from "../Common/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
 import { useCreateProductMutation } from "@/Redux/APIs/ProductApi";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const SupplierInfoFileds = () => {
   const dispatch = useDispatch();
@@ -37,33 +39,37 @@ const SupplierInfoFileds = () => {
 
   // create product handler function
   const createHandler = async () => {
-    // let newImages = [];
-    // for (let el of images) {
-    //   newImages?.push(el?.file);
-    // }
-    // const formData = new FormData();
-    // Array.from(newImages).forEach((file) => {
-    //   formData.append("images", file);
-    // });
-    const dummyProduct = {
-      name: "Teer Mustard Oil",
-      description: "test description",
-      images: formData,
-      category: "Dairy",
-      price: 599,
-      buyingPrice: 499,
-      stock: 100,
-      supplier: "others",
-      newSupplier: {
+    const formData = new FormData();
+    formData.append("name", "Teer Mustard Oil");
+    formData.append("description", "test description");
+    formData.append("category", "Dairy");
+    formData.append("price", "599");
+    formData.append("buyingPrice", "499");
+    formData.append("stock", "100");
+    formData.append("supplier", "others");
+    formData.append(
+      "newSupplier",
+      JSON.stringify({
         name: "Gazi Enterprise",
         contact: "01393423093",
         address: "123/a Baburhat, Dubai",
-      },
-      sku: "teer-5kg-mustardoil",
-      unitType: "kg",
-    };
-
-    const newProduct = await createProudct(dummyProduct);
+      })
+    );
+    formData.append("sku", "teer-5kg-mustardoil");
+    formData.append("unitType", "kg");
+    Array.from(images).forEach((file) => {
+      formData.append("images", file?.file);
+    });
+    await toast.promise(
+      createProudct(formData).unwrap(), // Unwrap to handle success/reject
+      {
+        pending: "Creating user...",
+        success: "User created successfully! 🎉",
+        error: "Failed to create user! ❌",
+      }
+    );
+    // call the product mutation with formData
+    // const newProduct = await createProudct(formData);
   };
 
   return (
