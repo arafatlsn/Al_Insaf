@@ -11,11 +11,12 @@ const InputLabel = ({
   value,
   action,
   actionFor,
+  required = false,
 }) => {
   return (
     <div className="flex flex-col gap-[2px]">
       <label className="capitalize" htmlFor={htmlFor}>
-        {title}
+        {title} {required && <span className="text-red-500">*</span>}
       </label>
       <input
         className="h-[40px] px-[8px] bg-foreground rounded-[6px] border-[.2px] border-third focus:outline-third cShadow"
@@ -25,6 +26,7 @@ const InputLabel = ({
         id={id}
         value={value}
         onChange={(e) => action(actionFor, e.target.value)}
+        required={required}
       />
     </div>
   );

@@ -1,10 +1,11 @@
 import { sidebarOptions } from "@/utils/StaticData";
+import Image from "next/image";
 import Link from "next/link";
 
 const SideBar = () => {
   return (
     <aside className="h-full bg-background">
-      <h2 className="mdXYPadding text-primary font-bold ">Al Insaf</h2>
+      <Image src={"/logo.jpg"} className="w-[240px] object-contain" width={640} height={640} alt="logo" />
       <ul className="lgXYPadding">
         {sidebarOptions.map((el) => (
           <li key={el?.id}>

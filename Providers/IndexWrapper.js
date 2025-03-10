@@ -8,9 +8,9 @@ const IndexWrapper = ({ children }) => {
     <Provider store={store}>
       {children}
       <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
+        position="bottom-left"
+        autoClose={10000}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick={false}
         rtl={false}
@@ -18,7 +18,6 @@ const IndexWrapper = ({ children }) => {
         draggable
         pauseOnHover
         theme="light"
-        // transition={Bounce}
       />
     </Provider>
   );

@@ -13,6 +13,7 @@ export default {
         primary: "var(--primary)",
         secondary: "var(--secondary)",
         third: "var(--third)",
+        lightText: "var(--lightText)",
         button: "var(--button)",
       },
     },

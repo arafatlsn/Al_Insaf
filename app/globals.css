@@ -5,10 +5,11 @@
 :root {
   --background: #ffffff;
   --foreground: #f8f8fa;
-  --primary: #80ef80;
-  --seconday: #e3f0a3;
-  --third: #badba2;
+  --primary: #3a7dff;
+  --secondary: #f4a261;
+  --third: #2a9d8f;
   --button: #42d674;
+  --lightText: #23262d;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,9 +25,15 @@ body {
 
 /* CUSTOM TAILWIND CLASSES  */
 @layer components {
+  .button {
+    @apply w-full py-[.2rem] rounded-[4px] text-[15px] uppercase font-[500] text-white;
+  }
   /* FONTS */
   .mdFont {
     @apply text-[14px] md:text-[18px] lg:text-[20px] xl:text-[22px];
+  }
+  .smFont {
+    @apply text-[12px] md:text-[14px] lg:text-[1rem] xl:text-[18px];
   }
   /* PADDING */
   .lgXYPadding {
@@ -45,14 +52,14 @@ body {
 }
 
 /* CSS FOR UPLOAD IMAGES */
-#product_images{
+#product_images {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   gap: 1rem;
 }
 
-#product_images div:first-child{
+#product_images div:first-child {
   grid-column-start: 1;
   grid-column-end: 3;
   grid-row-start: 1;

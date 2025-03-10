@@ -9,14 +9,9 @@ import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
 const BasicInfoFields = () => {
   const dispatch = useDispatch();
   // redux states
-  const {
-    name,
-    price,
-    buyingPrice,
-    stock,
-    sku,
-    expiryDate,
-  } = useSelector((state) => state.product_slice);
+  const { name, price, buyingPrice, stock, sku, expiryDate } = useSelector(
+    (state) => state.product_slice
+  );
   // dispatch function
   const dispatcher = (objKey, value) => {
     dispatch(updateProductSlice({ [objKey]: value }));
@@ -35,10 +30,17 @@ const BasicInfoFields = () => {
             value={name}
             action={dispatcher}
             actionFor="name"
+            required={true}
           />
         </div>
         <div>
-          <SelectComp label="Product Category" options={productCategories} action={dispatcher} actionFor={"category"} />
+          <SelectComp
+            label="Product Category"
+            options={productCategories}
+            action={dispatcher}
+            actionFor={"category"}
+            required={true}
+          />
         </div>
         <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
           <div>
@@ -52,6 +54,7 @@ const BasicInfoFields = () => {
               value={price}
               action={dispatcher}
               actionFor={"price"}
+              required={true}
             />
           </div>
           <div>
@@ -65,6 +68,7 @@ const BasicInfoFields = () => {
               value={buyingPrice}
               action={dispatcher}
               actionFor={"buyingPrice"}
+              required={true}
             />
           </div>
         </div>
@@ -80,6 +84,7 @@ const BasicInfoFields = () => {
               value={stock}
               action={dispatcher}
               actionFor={"stock"}
+              required={true}
             />
           </div>
           <div>
@@ -92,12 +97,19 @@ const BasicInfoFields = () => {
               value={sku}
               action={dispatcher}
               actionFor={"sku"}
+              required={true}
             />
           </div>
         </div>
         <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
           <div>
-            <SelectComp label="Unit Type" options={unitTypes} action={dispatcher} actionFor={"unitType"} />
+            <SelectComp
+              label="Unit Type"
+              options={unitTypes}
+              action={dispatcher}
+              actionFor={"unitType"}
+              required={true}
+            />
           </div>
           <div>
             <InputLabel

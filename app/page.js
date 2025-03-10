@@ -1,3 +1,4 @@
+import ShopPage from "@/components/Pages/ShopPage";
 import { url } from "@/utils/url";
 
 export default async function Home() {
@@ -7,8 +8,8 @@ export default async function Home() {
     products = await data.json();
   } catch (error) {}
   return (
-    <div>
-      <p>this is shop page.</p>
-    </div>
+    <main>
+      <ShopPage />
+    </main>
   );
 }

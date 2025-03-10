@@ -5,6 +5,19 @@ import { NextResponse } from "next/server";
 import { fileToBuffer } from "@/utils/fileToBuffer";
 import cloudinary from "@/utils/cloudinary";
 
+export async function GET(req) {
+  console.log('getting product hitted');
+  // database connection
+  await connectDB();
+
+  try {
+    const products = await Product.find();
+    return NextResponse.json({ data: products }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: error?.message }, { status: 500 });
+  }
+}
+
 export async function POST(req) {
   const formData = await req.formData();
   const name = formData.get("name");

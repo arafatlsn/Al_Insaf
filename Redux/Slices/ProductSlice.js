@@ -25,8 +25,9 @@ export const ProductSlice = createSlice({
         state[property] = actionPayload[property];
       }
     },
+    resetProductSlice: () => initialState,
   },
 });
 
-export const { updateProductSlice } = ProductSlice.actions
+export const { updateProductSlice, resetProductSlice } = ProductSlice.actions;
 export default ProductSlice.reducer;

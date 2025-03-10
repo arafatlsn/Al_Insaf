@@ -1,7 +1,7 @@
 import React from "react";
-import BasicInfoFields from "./BasicInfoFields";
-import SupplierInfoFileds from "./SupplierInfoFileds";
-import ProductImages from "./ProductImages";
+import BasicInfoFields from "../Product/BasicInfoFields";
+import SupplierInfoFileds from "../Product/SupplierInfoFileds";
+import ProductImages from "../Product/ProductImages";
 
 const CreateProduct = () => {
   return (
