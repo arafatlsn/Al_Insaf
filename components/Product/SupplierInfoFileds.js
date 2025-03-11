@@ -23,8 +23,7 @@ const SupplierInfoFileds = () => {
     category,
     price,
     images,
-    buyingPrice,
-    stock,
+    purchase,
     supplier,
     newSupplier,
     sku,
@@ -49,8 +48,7 @@ const SupplierInfoFileds = () => {
       !name ||
       !category ||
       !price ||
-      !buyingPrice ||
-      !stock ||
+      !purchase?.length ||
       !supplier ||
       !sku ||
       !unitType ||
@@ -65,8 +63,7 @@ const SupplierInfoFileds = () => {
     formData.append("description", "test description");
     formData.append("category", category);
     formData.append("price", price);
-    formData.append("buyingPrice", buyingPrice);
-    formData.append("stock", stock);
+    formData.append("purchase", JSON.stringify(purchase));
     formData.append("supplier", supplier);
     formData.append("newSupplier", JSON.stringify(newSupplier));
     formData.append("sku", sku);

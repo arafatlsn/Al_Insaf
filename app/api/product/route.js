@@ -6,7 +6,7 @@ import { fileToBuffer } from "@/utils/fileToBuffer";
 import cloudinary from "@/utils/cloudinary";
 
 export async function GET(req) {
-  console.log('getting product hitted');
+  console.log("getting product hitted");
   // database connection
   await connectDB();
 
@@ -24,25 +24,54 @@ export async function POST(req) {
   const description = formData.get("description");
   const category = formData.get("category");
   const price = Number(formData.get("price"));
-  const buyingPrice = Number(formData.get("buyingPrice"));
-  const stock = Number(formData.get("stock"));
+  const purchase = JSON.parse(formData.get("purchase"));
   const supplier = formData.get("supplier");
   const newSupplier = JSON.parse(formData.get("newSupplier"));
   const sku = formData.get("sku");
   const unitType = formData.get("unitType");
   const images = formData.getAll("images");
 
+  let totalStock = 0;
+  let invest = 0;
+  const nextExpiredDate = purchase?.length === 1 && new Date(purchase[0]?.expired).toISOString();
+
+  console.log("expired:", nextExpiredDate, purchase);
+
+  // checking all required fields
+  if (
+    !name ||
+    !category ||
+    !price ||
+    !purchase?.length ||
+    !supplier ||
+    !sku ||
+    !unitType ||
+    (supplier?.toLowerCase() === "others" && !newSupplier?.name)
+  ) {
+    return NextResponse.json(
+      { message: "missing required fields!" },
+      { status: 500 }
+    );
+  }
+  for (let product of purchase) {
+    totalStock = totalStock + product?.stock;
+    invest =
+      invest + (product?.buyingCost + product?.serviceCost) * product?.stock;
+  }
+
   const productObj = {
     name,
     description,
     category,
     price,
-    buyingPrice,
-    stock,
+    purchase,
     supplier,
     sku,
     unitType,
     images: [],
+    invest,
+    totalStock,
+    nextExpiredDate,
   };
   try {
     // connect db

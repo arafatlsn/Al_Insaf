@@ -9,7 +9,7 @@ const InputLabel = ({
   id,
   placeHolder,
   value,
-  action,
+  action = undefined,
   actionFor,
   required = false,
 }) => {
@@ -25,7 +25,12 @@ const InputLabel = ({
         name={name}
         id={id}
         value={value}
-        onChange={(e) => action(actionFor, e.target.value)}
+        onChange={(e) => {
+          if (action === undefined) {
+            return;
+          }
+          action(actionFor, e.target.value);
+        }}
         required={required}
       />
     </div>

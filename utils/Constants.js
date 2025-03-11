@@ -9,7 +9,7 @@ export const productCategories = [
   "Others",
 ];
 
-export const unitTypes = ["kg", "piece", "pack", "ml", "litre", "others"];
+export const unitTypes = ["kg", "piece", "pack", "ml", "litre", "bottle", "galon", "others"];
 
 export const suppliers = [
   {

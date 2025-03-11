@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const SupplierSchema = new mongoose.Schema(
+const CustomerSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -17,5 +17,5 @@ const SupplierSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.Supplier ||
-  mongoose.model("Supplier", SupplierSchema);
+export default mongoose.models.Customer ||
+  mongoose.model("Customer", CustomerSchema);

@@ -1,5 +1,6 @@
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-datepicker/dist/react-datepicker.css";
 import NavBar from "@/components/Common/NavBar";
 import SideBar from "@/components/Common/SideBar";
 import IndexWrapper from "@/Providers/IndexWrapper";
@@ -12,8 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-      >
+      <body>
         <div className="w-full flex">
           <div className="min-w-[220px] h-screen border-r-[1px]">
             <SideBar />

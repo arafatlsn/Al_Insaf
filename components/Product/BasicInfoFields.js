@@ -1,21 +1,50 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import InputLabel from "../Common/InputLabel";
 import SelectComp from "../Common/SelectComp";
 import { productCategories, unitTypes } from "@/utils/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
+import { randomId } from "@/utils/randomId";
+import DatePicker from "react-datepicker";
+import PickDate from "../Common/PickDate";
 
 const BasicInfoFields = () => {
+  const [selectedDate, setDate] = useState(new Date());
   const dispatch = useDispatch();
   // redux states
-  const { name, price, buyingPrice, stock, sku, expiryDate } = useSelector(
+  const { name, price, purchase, sku } = useSelector(
     (state) => state.product_slice
   );
   // dispatch function
   const dispatcher = (objKey, value) => {
     dispatch(updateProductSlice({ [objKey]: value }));
   };
+
+  const purchaseDispatcher = (e) => {
+    e.preventDefault();
+
+    const buyingCost = Number(e.target.buying_cost?.value);
+    const serviceCost = Number(e.target.service_cost?.value) || 0;
+    const stock = Number(e.target.stock?.value);
+    const sellingPrice = Number(e.target.selling_price?.value);
+    const [day, month, year] = e.target.expired_date?.value?.split("-");
+    const expired = new Date(year, month - 1, day);
+    const updatedPurchase = [
+      ...purchase,
+      {
+        buyingCost,
+        serviceCost,
+        stock,
+        sellingPrice,
+        expired: expired,
+      },
+    ];
+    dispatch(updateProductSlice({ purchase: updatedPurchase }));
+    e.target.reset();
+  };
+
+  console.log("purchase:", purchase);
   return (
     <div className="bg-background smXYPadding rounded-[10px]">
       <h3 className="mdFont text-lightText mb-[1rem]">Basic Information</h3>
@@ -42,51 +71,84 @@ const BasicInfoFields = () => {
             required={true}
           />
         </div>
-        <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
-          <div>
-            <InputLabel
-              title="Selling Price"
-              type="number"
-              htmlFor="selling_price"
-              name="selling_price"
-              id="selling_price"
-              placeHolder="Selling Price"
-              value={price}
-              action={dispatcher}
-              actionFor={"price"}
-              required={true}
-            />
-          </div>
-          <div>
-            <InputLabel
-              title="Buying Price"
-              type="number"
-              htmlFor="buying_price"
-              name="buying_price"
-              id="buying_price"
-              placeHolder="Buying Price"
-              value={buyingPrice}
-              action={dispatcher}
-              actionFor={"buyingPrice"}
-              required={true}
-            />
-          </div>
+        <div>
+          <InputLabel
+            title="Price"
+            type="number"
+            htmlFor="price"
+            name="price"
+            id="price"
+            placeHolder="Price"
+            required={true}
+            value={price}
+            action={dispatcher}
+            actionFor="price"
+          />
         </div>
-        <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
-          <div>
-            <InputLabel
-              title="Stock"
-              type="number"
-              htmlFor="stock"
-              name="stock"
-              id="stock"
-              placeHolder="Product Stock"
-              value={stock}
-              action={dispatcher}
-              actionFor={"stock"}
-              required={true}
-            />
+        {/* PURCHASE FIELDS  */}
+        <form
+          onSubmit={purchaseDispatcher}
+          className="w-full flex items-center gap-[20px]"
+        >
+          <div className="grow w-full grid grid-cols-5 items-center gap-[1rem]">
+            <div>
+              <InputLabel
+                title="Buying Cost"
+                type="number"
+                htmlFor="buying_cost"
+                name="buying_cost"
+                id="buying_cost"
+                placeHolder="Buying Cost"
+                required={true}
+              />
+            </div>
+            <div>
+              <InputLabel
+                title="Service Cost"
+                type="number"
+                htmlFor="service_cost"
+                name="service_cost"
+                id="service_cost"
+                placeHolder="Service Cost"
+              />
+            </div>
+            <div>
+              <InputLabel
+                title="Stock"
+                type="number"
+                htmlFor="stock"
+                name="stock"
+                id="stock"
+                placeHolder="Stock"
+                required={true}
+              />
+            </div>
+            <div>
+              <InputLabel
+                title="Selling Price"
+                type="number"
+                htmlFor="selling_price"
+                name="selling_price"
+                id="selling_price"
+                placeHolder="Selling Price"
+                required={true}
+              />
+            </div>
+            <div>
+              <PickDate
+                title="Expired"
+                name="expired_date"
+                htmlFor="expired_date"
+              />
+            </div>
           </div>
+          <div>
+            <button className="button bg-button mt-[25px] h-[38px] px-[10px]">
+              add
+            </button>
+          </div>
+        </form>
+        <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
           <div>
             <InputLabel
               title="Stock keeping unit"
@@ -97,11 +159,8 @@ const BasicInfoFields = () => {
               value={sku}
               action={dispatcher}
               actionFor={"sku"}
-              required={true}
             />
           </div>
-        </div>
-        <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
           <div>
             <SelectComp
               label="Unit Type"
@@ -109,19 +168,6 @@ const BasicInfoFields = () => {
               action={dispatcher}
               actionFor={"unitType"}
               required={true}
-            />
-          </div>
-          <div>
-            <InputLabel
-              title="Expired Date"
-              type="date"
-              htmlFor="expired_date"
-              name="expired_date"
-              id="expired_date"
-              placeHolder="dd-mm-yyyy"
-              value={expiryDate}
-              action={dispatcher}
-              actionFor={"expiryDate"}
             />
           </div>
         </div>

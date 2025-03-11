@@ -40,10 +40,8 @@ const CustomerDetails = () => {
       });
       totalAmount = totalAmount + product?.price * product?.quantity;
     }
-
-    const orderObj = { products, totalAmount };
-
-    // const response = await placeOrderMutation();
+    const orderObj = { products, totalAmount, customer, newCustomer };
+    const response = await placeOrderMutation(orderObj);
   };
   return (
     <section className="bg-background smXYPadding rounded-[10px]">
