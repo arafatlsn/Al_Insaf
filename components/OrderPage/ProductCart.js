@@ -11,15 +11,26 @@ import {
 } from "@/components/ui/table";
 import DefaultImage from "../Common/DefaultImage";
 import Image from "next/image";
-import { updateQuantity } from "@/Redux/Slices/CartSlice";
+import { updateProduct } from "@/Redux/Slices/CartSlice";
+import SelectPurchase from "../Common/SelectPurchase";
 
 const ProductCart = () => {
   const dispatch = useDispatch();
   const { cart, totalAmount } = useSelector((state) => state.cart_slice);
 
-  const handleQuantity = (value, product) => {
-    dispatch(updateQuantity({ value, product }));
+  const handlerUpdateProduct = (id, value, actionFor, index) => {
+    dispatch(updateProduct({ id, value, actionFor, index }));
   };
+
+  // select purchase handler
+  // const selectPurchase = (id, index) => {
+  //   const findProduct = cart?.find((product) => product?._id === id);
+  //   const newProduct = { ...findProduct };
+  //   newProduct["selectedPurchase"] = newProduct?.purchase[index];
+  //   newProduct["price"] = newProduct?.selectedPurchase?.sellingPrice;
+
+  //   dispatch(updateProduct(newProduct));
+  // };
 
   return (
     <section className="bg-background mdXYPadding rounded-[10px]">
@@ -30,6 +41,7 @@ const ProductCart = () => {
             <TableRow>
               <TableHead className="">Product</TableHead>
               <TableHead>Price</TableHead>
+              <TableHead>Stock</TableHead>
               <TableHead>Quantity</TableHead>
               <TableHead className="text-right w-[200px]">Total</TableHead>
             </TableRow>
@@ -53,24 +65,42 @@ const ProductCart = () => {
                   <div className="p-[4px]">
                     <h3 className="smFont font-[500]">{product?.name}</h3>
                     <h5>{product?.sku}</h5>
+                    {product?.purchase?.length > 1 && (
+                      <div className="mt-[.5rem]">
+                        <SelectPurchase
+                          options={product?.purchase}
+                          size="small"
+                          action={handlerUpdateProduct}
+                          id={product?._id}
+                        />
+                      </div>
+                    )}
                   </div>
                 </TableCell>
-                <TableCell>{product?.price}</TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-[6px]">
-                    <button className="w-[30px] h-[30px] text-[1.5rem] font-bold flex items-start justify-center border">
-                      -
-                    </button>
-                    <input
-                      onChange={(e) => handleQuantity(e.target.value, product)}
-                      type="text"
-                      className="w-[40px] h-[30px] px-[3px] text-center focus:outline-none border"
-                      value={product?.quantity}
-                    />
-                    <button className="w-[30px] h-[30px] text-[1.5rem] font-bold flex items-start justify-center border">
-                      +
-                    </button>
-                  </div>
+                  <input
+                    onChange={(e) =>
+                      handlerUpdateProduct(product._id, e.target.value, "price")
+                    }
+                    type="text"
+                    className="w-[40px] h-[30px] px-[3px] text-center focus:outline-none border"
+                    value={product?.price}
+                  />
+                </TableCell>
+                <TableCell>{product?.totalStock}</TableCell>
+                <TableCell>
+                  <input
+                    onChange={(e) =>
+                      handlerUpdateProduct(
+                        product._id,
+                        e.target.value,
+                        "quantity"
+                      )
+                    }
+                    type="text"
+                    className="w-[40px] h-[30px] px-[3px] text-center focus:outline-none border"
+                    value={product?.quantity}
+                  />
                 </TableCell>
                 <TableCell className="text-right">
                   {product?.quantity * product?.price}

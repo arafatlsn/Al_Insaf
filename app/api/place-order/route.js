@@ -7,13 +7,13 @@ export async function POST(req) {
   const reqData = await req.json();
   try {
     await connectDB();
-    // create the customer is not exist
+    // 1️⃣ create the customer is not exist
     if (reqData?.customer.toLowerCase() === "others") {
       const newCustomerRes = await CustomerModel.create([reqData?.newCustomer]);
       // now replace the customer with new supplier _id
       reqData["customer"] = newCustomerRes[0]?._id;
     }
-    // create the product
+    // 2️⃣ create the product
     const newOrder = await OrderModel.create([reqData]);
     console.log("placed new order:", newOrder);
     return NextResponse.json(

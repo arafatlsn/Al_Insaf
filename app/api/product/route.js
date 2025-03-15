@@ -33,9 +33,7 @@ export async function POST(req) {
 
   let totalStock = 0;
   let invest = 0;
-  const nextExpiredDate = purchase?.length === 1 && new Date(purchase[0]?.expired).toISOString();
-
-  console.log("expired:", nextExpiredDate, purchase);
+  let minExpiredDate = purchase[0]?.expired;
 
   // checking all required fields
   if (
@@ -53,10 +51,16 @@ export async function POST(req) {
       { status: 500 }
     );
   }
+
   for (let product of purchase) {
     totalStock = totalStock + product?.stock;
     invest =
       invest + (product?.buyingCost + product?.serviceCost) * product?.stock;
+    if (
+      new Date(product?.expired).getTime() < new Date(minExpiredDate).getTime
+    ) {
+      minExpiredDate = product?.expired;
+    }
   }
 
   const productObj = {
@@ -71,18 +75,18 @@ export async function POST(req) {
     images: [],
     invest,
     totalStock,
-    nextExpiredDate,
+    nextExpiredDate: minExpiredDate,
   };
   try {
     // connect db
     await connectDB();
-    // create the supplier is not exist
+    // 1️⃣ create the supplier is not exist
     if (supplier.toLowerCase() === "others") {
       const newSupplierRes = await Supplier.create([newSupplier]);
       // now replace the supplier with new supplier _id
       productObj["supplier"] = newSupplierRes[0]?._id;
     }
-    // create the product
+    // 2️⃣ create the product
     const newProduct = await Product.create([productObj]);
     const productId = newProduct[0]._id;
 

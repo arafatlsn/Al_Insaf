@@ -28,7 +28,6 @@ const SupplierInfoFileds = () => {
     newSupplier,
     sku,
     unitType,
-    expiryDate,
   } = useSelector((state) => state.product_slice);
   // dispatch function
   const dispatcher = (objKey, value) => {
@@ -55,7 +54,7 @@ const SupplierInfoFileds = () => {
       (supplier?.toLowerCase() === "others" && !newSupplier?.name)
     ) {
       toast.error("Please filled all requied fields");
-      return;
+      // return;
     }
 
     const formData = new FormData();

@@ -9,12 +9,16 @@ const ProductCard = ({ product }) => {
   const router = useRouter();
   // handle product to cart
   const addCartHandler = () => {
-    dispatch(addToCart(product));
+    const newProduct = {...product};
+    newProduct["selectedPurchase"] = newProduct?.purchase[0];
+    dispatch(addToCart(newProduct));
   };
 
   // handle to navigate order page
   const placeOrder = () => {
-    dispatch(addToCart(product));
+    const newProduct = {...product};
+    newProduct["selectedPurchase"] = newProduct?.purchase[0];
+    dispatch(addToCart(newProduct));
     router.push("/place-order");
   };
 

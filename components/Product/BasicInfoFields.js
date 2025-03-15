@@ -6,11 +6,19 @@ import { productCategories, unitTypes } from "@/utils/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
 import { randomId } from "@/utils/randomId";
-import DatePicker from "react-datepicker";
 import PickDate from "../Common/PickDate";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { toDateStringFn } from "@/utils/toDateStringFn";
 
 const BasicInfoFields = () => {
-  const [selectedDate, setDate] = useState(new Date());
+  const [selectedDate, setDate] = useState(null);
   const dispatch = useDispatch();
   // redux states
   const { name, price, purchase, sku } = useSelector(
@@ -33,6 +41,7 @@ const BasicInfoFields = () => {
     const updatedPurchase = [
       ...purchase,
       {
+        id: randomId(),
         buyingCost,
         serviceCost,
         stock,
@@ -42,9 +51,15 @@ const BasicInfoFields = () => {
     ];
     dispatch(updateProductSlice({ purchase: updatedPurchase }));
     e.target.reset();
+    setDate(null);
   };
 
-  console.log("purchase:", purchase);
+  // remove purchase
+  const removePurchase = (index) => {
+    const newPurchase = purchase?.filter((_, index2) => index !== index2);
+    dispatch(updateProductSlice({ purchase: newPurchase }));
+  };
+
   return (
     <div className="bg-background smXYPadding rounded-[10px]">
       <h3 className="mdFont text-lightText mb-[1rem]">Basic Information</h3>
@@ -85,6 +100,37 @@ const BasicInfoFields = () => {
             actionFor="price"
           />
         </div>
+        {/* SHOW ADDED PURCHASES */}
+        {purchase?.length > 0 && (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Buying</TableHead>
+                <TableHead>Service</TableHead>
+                <TableHead>Stock</TableHead>
+                <TableHead>Selling</TableHead>
+                <TableHead>Expired</TableHead>
+                <TableHead></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {purchase?.map((el, index) => (
+                <TableRow key={el?.id}>
+                  <TableCell>{el?.buyingCost}</TableCell>
+                  <TableCell>{el?.serviceCost}</TableCell>
+                  <TableCell>{el?.stock}</TableCell>
+                  <TableCell>{el?.sellingPrice}</TableCell>
+                  <TableCell>{`${toDateStringFn(el?.expired)}`}</TableCell>
+                  <TableCell>
+                    <button onClick={() => removePurchase(index)}>
+                      delete
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
         {/* PURCHASE FIELDS  */}
         <form
           onSubmit={purchaseDispatcher}
@@ -139,6 +185,8 @@ const BasicInfoFields = () => {
                 title="Expired"
                 name="expired_date"
                 htmlFor="expired_date"
+                selectedDate={selectedDate}
+                setDate={setDate}
               />
             </div>
           </div>

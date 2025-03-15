@@ -14,6 +14,7 @@ const SelectCompObj = ({
   action,
   actionFor,
   required = false,
+  size = "large",
 }) => {
   return (
     <Select
@@ -22,8 +23,14 @@ const SelectCompObj = ({
       }}
     >
       <SelectGroup>
-        <SelectLabel className="capitalize mb-[4px]">{label} {required && <span className="text-red-500">*</span>} </SelectLabel>
-        <SelectTrigger className="w-full h-[40px] border-third focus:outline-none focus:ring-0 capitalize">
+        <SelectLabel className="capitalize mb-[4px]">
+          {label} {required && <span className="text-red-500">*</span>}{" "}
+        </SelectLabel>
+        <SelectTrigger
+          className={`w-full ${
+            size === "large" ? "h-[40px]" : "h-[30px]"
+          } border-third focus:outline-none focus:ring-0 capitalize`}
+        >
           <SelectValue placeholder="Select Your Choice" />
         </SelectTrigger>
         <SelectContent className="bg-foreground">

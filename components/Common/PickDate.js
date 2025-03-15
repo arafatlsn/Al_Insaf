@@ -2,8 +2,7 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 
-const PickDate = ({ title, htmlFor, name, required = false }) => {
-  const [selectedDate, setDate] = useState("");
+const PickDate = ({ title, htmlFor, name, required = false, selectedDate, setDate }) => {
   return (
     <div className="flex flex-col gap-[2px]">
       <label className="capitalize" htmlFor={htmlFor}>

@@ -21,6 +21,7 @@ export const OrderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    profit: { type: Number, required: true },
     paymentStatus: {
       type: String,
       enum: ["pending", "paid"],

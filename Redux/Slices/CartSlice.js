@@ -42,24 +42,62 @@ export const CartSlice = createSlice({
       }
       state.totalAmount = totalAmount;
     },
-    // update quantity
-    updateQuantity: (state, action) => {
+
+    updateProduct: (state, action) => {
       const cart = state?.cart;
-      const payloadProduct = { ...action.payload.product };
-      payloadProduct["quantity"] = Number(action.payload.value);
+      const payloadId = action.payload?.id;
+      const payloadValue = action.payload?.value;
+      const payloadActionFor = action.payload?.actionFor;
+      const payloadIndex = action.payload?.index;
+
+      // find the product
+      const findProduct = state.cart?.find(
+        (product) => product?._id === payloadId
+      );
+      if (!findProduct) {
+        toast.error("Can't Find the Product");
+        return;
+      }
+      const newObj = { ...findProduct };
       const updatedCart = [];
       let totalAmount = 0;
       for (let product of cart) {
-        if (product?._id === payloadProduct?._id) {
-          updatedCart.push(payloadProduct);
-        } else if (product?._id !== payloadProduct?._id) {
-          updatedCart.push(product);
+        // checking action for update quantity
+        if (payloadActionFor === "quantity") {
+          if (product?._id === payloadId) {
+            newObj["quantity"] = payloadValue;
+            updatedCart.push(newObj);
+            totalAmount = totalAmount + payloadValue * product?.price;
+          } else if (product?._id !== payloadId) {
+            updatedCart.push(product);
+            totalAmount = totalAmount + product?.quantity * product?.price;
+          }
+        }
+        // checking action for update price
+        if (payloadActionFor === "price") {
+          if (product?._id === payloadId) {
+            newObj["price"] = payloadValue;
+            updatedCart.push(newObj);
+            totalAmount = totalAmount + product?.quantity * payloadValue;
+          } else if (product?._id !== payloadId) {
+            updatedCart.push(product);
+            totalAmount = totalAmount + product?.quantity * product?.price;
+          }
+        }
+        // checking action for select purchase
+        if (payloadActionFor === "selectedPurchase") {
+          if (product?._id === payloadId) {
+            newObj["selectedPurchase"] = newObj?.purchase[payloadIndex];
+            newObj["price"] = newObj?.purchase[payloadIndex]?.sellingPrice;
+            updatedCart.push(newObj);
+            totalAmount = totalAmount + product?.quantity * newObj["price"];
+          } else if (product?._id !== payloadId) {
+            updatedCart.push(product);
+            totalAmount = totalAmount + product?.quantity * product?.price;
+          }
         }
       }
       state.cart = updatedCart;
-      for (let product of updatedCart) {
-        totalAmount = totalAmount + product?.quantity * product?.price;
-      }
       state.totalAmount = totalAmount;
     },
     // reset slice
@@ -67,6 +105,12 @@ export const CartSlice = createSlice({
   },
 });
 
-export const { updateCartSlice, addToCart, resetCart, updateQuantity } =
-  CartSlice.actions;
+export const {
+  updateCartSlice,
+  addToCart,
+  resetCart,
+  updateProduct,
+  // updateQuantity,
+  // updateCart,
+} = CartSlice.actions;
 export default CartSlice.reducer;
