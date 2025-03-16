@@ -1,5 +1,4 @@
 "use client";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
@@ -11,26 +10,23 @@ import {
 } from "@/components/ui/table";
 import DefaultImage from "../Common/DefaultImage";
 import Image from "next/image";
-import { updateProduct } from "@/Redux/Slices/CartSlice";
+import {
+  handlingCashDue,
+  removeProduct,
+  updateProduct,
+} from "@/Redux/Slices/CartSlice";
 import SelectPurchase from "../Common/SelectPurchase";
+import TrashIcon from "../Icons/TrashIcon";
 
 const ProductCart = () => {
   const dispatch = useDispatch();
-  const { cart, totalAmount } = useSelector((state) => state.cart_slice);
+  const { cart, totalAmount, cash, due } = useSelector(
+    (state) => state.cart_slice
+  );
 
   const handlerUpdateProduct = (id, value, actionFor, index) => {
     dispatch(updateProduct({ id, value, actionFor, index }));
   };
-
-  // select purchase handler
-  // const selectPurchase = (id, index) => {
-  //   const findProduct = cart?.find((product) => product?._id === id);
-  //   const newProduct = { ...findProduct };
-  //   newProduct["selectedPurchase"] = newProduct?.purchase[index];
-  //   newProduct["price"] = newProduct?.selectedPurchase?.sellingPrice;
-
-  //   dispatch(updateProduct(newProduct));
-  // };
 
   return (
     <section className="bg-background mdXYPadding rounded-[10px]">
@@ -43,6 +39,7 @@ const ProductCart = () => {
               <TableHead>Price</TableHead>
               <TableHead>Stock</TableHead>
               <TableHead>Quantity</TableHead>
+              <TableHead>Action</TableHead>
               <TableHead className="text-right w-[200px]">Total</TableHead>
             </TableRow>
           </TableHeader>
@@ -83,7 +80,7 @@ const ProductCart = () => {
                       handlerUpdateProduct(product._id, e.target.value, "price")
                     }
                     type="text"
-                    className="w-[40px] h-[30px] px-[3px] text-center focus:outline-none border"
+                    className="w-[80px] h-[30px] px-[3px] text-center focus:outline-none border"
                     value={product?.price}
                   />
                 </TableCell>
@@ -102,6 +99,15 @@ const ProductCart = () => {
                     value={product?.quantity}
                   />
                 </TableCell>
+                <TableCell>
+                  <button
+                    onClick={() =>
+                      dispatch(removeProduct({ productId: product?._id }))
+                    }
+                  >
+                    <TrashIcon className="w-6 h-6 hover:text-red-500 transition-all" />
+                  </button>
+                </TableCell>
                 <TableCell className="text-right">
                   {product?.quantity * product?.price}
                 </TableCell>
@@ -118,6 +124,48 @@ const ProductCart = () => {
             <TableRow>
               <TableCell>Sub Total</TableCell>
               <TableCell className="text-right">{totalAmount}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Cash</TableCell>
+              <TableCell className="text-right">
+                <input
+                  className="text-right focus:outline-none"
+                  type="number"
+                  value={cash}
+                  onChange={(e) => {
+                    if (e.target.value > totalAmount || e.target.value < 0) {
+                      return;
+                    }
+                    dispatch(
+                      handlingCashDue({
+                        cash: e.target.value,
+                        actionFor: "cash",
+                      })
+                    );
+                  }}
+                />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Due</TableCell>
+              <TableCell className="text-right">
+                <input
+                  className="text-right focus:outline-none"
+                  type="number"
+                  value={due}
+                  onChange={(e) => {
+                    if (e.target.value > totalAmount) {
+                      return;
+                    }
+                    dispatch(
+                      handlingCashDue({
+                        due: e.target.value,
+                        actionFor: "due",
+                      })
+                    );
+                  }}
+                />
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

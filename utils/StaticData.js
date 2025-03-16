@@ -9,4 +9,9 @@ export const sidebarOptions = [
     title: "create product",
     route: "create-product",
   },
+  {
+    id: 3,
+    title: "sales",
+    route: "sales",
+  },
 ];
