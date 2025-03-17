@@ -130,7 +130,6 @@ export const CartSlice = createSlice({
           }
         }
       }
-      console.log("costing:", costing);
       state.costing = costing;
       state.cart = updatedCart;
       state.totalAmount = totalAmount;

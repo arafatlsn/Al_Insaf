@@ -3,13 +3,14 @@ import { useFetchCustomersQuery } from "@/Redux/APIs/CustomerApi";
 import InputLabel from "../Common/InputLabel";
 import SelectCompObj from "../Common/SelectCompObj";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCartSlice } from "@/Redux/Slices/CartSlice";
+import { resetCart, updateCartSlice } from "@/Redux/Slices/CartSlice";
 import Button from "../Common/Button";
 import { usePlaceOrderMutation } from "@/Redux/APIs/OrderApi";
+import { toast } from "react-toastify";
 
 const CustomerDetails = () => {
   const dispatch = useDispatch();
-  const { cart, customer, newCustomer } = useSelector(
+  const { cart, customer, newCustomer, cash, due } = useSelector(
     (state) => state.cart_slice
   );
   const { data } = useFetchCustomersQuery();
@@ -30,18 +31,55 @@ const CustomerDetails = () => {
     if (cart?.length === 0) {
       return;
     }
+    console.log("cart:", cart);
     const products = [];
     let totalAmount = 0;
+    let costing = 0;
+    let profit = 0;
     for (let product of cart) {
       products.push({
         product: product?._id,
         price: product?.price,
         quantity: product?.quantity,
+        selectedPurchaseId: product?.selectedPurchase?._id,
+        totalAmount: product?.price * product?.quantity,
+        costing:
+          product.quantity *
+          (product?.selectedPurchase?.buyingCost +
+            product?.selectedPurchase?.serviceCost),
+        profit:
+          product?.price * product?.quantity -
+          (product?.selectedPurchase?.buyingCost +
+            product?.selectedPurchase?.serviceCost) *
+            product?.quantity,
       });
-      totalAmount = totalAmount + product?.price * product?.quantity;
+      totalAmount += product?.price * product?.quantity;
+      costing +=
+        (product?.selectedPurchase?.buyingCost +
+          product?.selectedPurchase?.serviceCost) *
+        product?.quantity;
+      profit +=
+        product?.price * product?.quantity -
+        (product?.selectedPurchase?.buyingCost +
+          product?.selectedPurchase?.serviceCost) *
+          product?.quantity;
     }
-    const orderObj = { products, totalAmount, customer, newCustomer };
-    const response = await placeOrderMutation(orderObj);
+    const orderObj = {
+      products,
+      totalAmount,
+      costing,
+      profit,
+      customer,
+      newCustomer,
+      cash,
+      due,
+    };
+    await toast.promise(placeOrderMutation(orderObj).unwrap(), {
+      pending: "Placing Order...",
+      success: "Order Placed Successfully! 🎉",
+      error: "Failed to Placed Order! ❌",
+    });
+    dispatch(resetCart());
   };
   return (
     <section className="bg-background smXYPadding rounded-[10px]">

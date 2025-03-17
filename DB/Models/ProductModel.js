@@ -26,7 +26,7 @@ const ProductSchema = new mongoose.Schema(
     images: {
       type: [],
     },
-    price: { type: Number, requried: true, default: 0 },
+    price: { type: Number, required: true, default: 0 },
     purchase: {
       type: [
         {
@@ -76,7 +76,7 @@ const ProductSchema = new mongoose.Schema(
     unitType: {
       type: String,
       required: true,
-      enum: ["kg", "piece", "pack", "ml", "litre", "bottle", "galon", "others"],
+      enum: ["kg", "piece", "pack", "ml", "litre", "bottle", "gallon", "others"],
     },
     nextExpiredDate: {
       type: Date || null,

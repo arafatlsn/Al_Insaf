@@ -21,6 +21,7 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (error) {
+    console.log("place order error:", error?.message);
     return NextResponse.json({ error: error?.message }, { status: 500 });
   }
 }
