@@ -4,9 +4,9 @@ import Supplier from "@/DB/Models/SupplierModel";
 import { NextResponse } from "next/server";
 import { fileToBuffer } from "@/utils/fileToBuffer";
 import cloudinary from "@/utils/cloudinary";
+import mongoose from "mongoose";
 
 export async function GET(req) {
-  console.log("getting product hitted");
   // database connection
   await connectDB();
 
@@ -52,6 +52,8 @@ export async function POST(req) {
     );
   }
 
+  const session = await mongoose.startSession();
+
   for (let product of purchase) {
     totalStock = totalStock + product?.stock;
     invest =
@@ -80,14 +82,15 @@ export async function POST(req) {
   try {
     // connect db
     await connectDB();
+    session.startTransaction();
     // 1️⃣ create the supplier is not exist
     if (supplier.toLowerCase() === "others") {
-      const newSupplierRes = await Supplier.create([newSupplier]);
+      const newSupplierRes = await Supplier.create([newSupplier], { session });
       // now replace the supplier with new supplier _id
       productObj["supplier"] = newSupplierRes[0]?._id;
     }
     // 2️⃣ create the product
-    const newProduct = await Product.create([productObj]);
+    const newProduct = await Product.create([productObj], { session });
     const productId = newProduct[0]._id;
 
     // Upload images to Cloudinary
@@ -106,13 +109,23 @@ export async function POST(req) {
 
     const uploadedImageUrls = await Promise.all(uploadPromises);
     // 3️⃣ Update product with image URLs
-    await Product.findByIdAndUpdate(productId, { images: uploadedImageUrls });
+    await Product.findByIdAndUpdate(
+      productId,
+      {
+        images: uploadedImageUrls,
+      },
+      { session }
+    );
+    await session.commitTransaction();
+    session.endSession();
     return NextResponse.json(
       { message: "Seccessfully Added a New Product" },
       { status: 200 }
     );
   } catch (error) {
     console.log("error:", error?.message);
+    await session.abortTransaction();
+    session.endSession();
     return NextResponse.json(
       { message: "something went wrong" },
       { status: 500 }
