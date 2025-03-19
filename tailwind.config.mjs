@@ -15,6 +15,8 @@ export default {
         third: "var(--third)",
         lightText: "var(--lightText)",
         button: "var(--button)",
+        success: "var(--success)",
+        failed: "var(--failed)",
       },
     },
   },

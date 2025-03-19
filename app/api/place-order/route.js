@@ -23,7 +23,14 @@ export async function POST(req) {
       // now replace the customer with new supplier _id
       reqData["customer"] = newCustomerRes[0]?._id;
     }
-    // 2️⃣ create the product
+
+    if (reqData?.due > 0) {
+      reqData["paymentStatus"] = "dued";
+    } else if (reqData?.due === 0) {
+      reqData["paymentStatus"] = "paid";
+      reqData["cash"] = reqData?.totalAmount;
+    }
+    // 2️⃣ place the order
     const newOrder = await OrderModel.create([reqData], { session });
 
     // 3️⃣ now decrese the stocks from product collection

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Customer from "./CustomerModel";
 
 export const OrderSchema = new mongoose.Schema(
   {

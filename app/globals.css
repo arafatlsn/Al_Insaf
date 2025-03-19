@@ -10,6 +10,8 @@
   --third: #2a9d8f;
   --button: #42d674;
   --lightText: #23262d;
+  --success: #208B59;
+  --failed: #FF3333;
 }
 
 @media (prefers-color-scheme: dark) {

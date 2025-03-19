@@ -11,7 +11,7 @@ export const sidebarOptions = [
   },
   {
     id: 3,
-    title: "sales",
-    route: "sales",
+    title: "orders",
+    route: "orders",
   },
 ];

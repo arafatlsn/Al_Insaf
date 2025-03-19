@@ -9,7 +9,15 @@ export const OrderApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    fetchOrders: builder.query({
+      query: ({ filter, search }) =>
+        `/orders?filter=${encodeURIComponent(
+          filter
+        )}&search=${encodeURIComponent(search)}`,
+      method: "GET",
+      providesTags: ["orders"],
+    }),
   }),
 });
 
-export const { usePlaceOrderMutation } = OrderApi;
+export const { usePlaceOrderMutation, useFetchOrdersQuery } = OrderApi;
