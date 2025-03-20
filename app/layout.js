@@ -1,4 +1,6 @@
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import "react-datepicker/dist/react-datepicker.css";
 import NavBar from "@/components/Common/NavBar";
 import SideBar from "@/components/Common/SideBar";
 import IndexWrapper from "@/Providers/IndexWrapper";
@@ -11,15 +13,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-      >
+      <body>
         <div className="w-full flex">
-          <div className="min-w-[220px] h-screen border-r-[1px]">
+          <div className="min-w-[220px] max-w-[220px] h-screen border-r-[1px]">
             <SideBar />
           </div>
           <div className="grow">
-            <NavBar />
-            <div className="max-h-full smXYPadding bg-foreground">
+            {/* <NavBar /> */}
+            <div className="min-h-screen smXYPadding bg-foreground">
               <IndexWrapper>{children}</IndexWrapper>
             </div>
           </div>

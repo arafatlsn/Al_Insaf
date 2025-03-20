@@ -5,9 +5,8 @@ const initialState = {
   description: "",
   category: "",
   price: 0,
+  purchase: [],
   images: [],
-  buyingPrice: 0,
-  stock: 0,
   supplier: "",
   newSupplier: { name: "", contact: "", address: "" },
   sku: "",
@@ -25,8 +24,9 @@ export const ProductSlice = createSlice({
         state[property] = actionPayload[property];
       }
     },
+    resetProductSlice: () => initialState,
   },
 });
 
-export const { updateProductSlice } = ProductSlice.actions
+export const { updateProductSlice, resetProductSlice } = ProductSlice.actions;
 export default ProductSlice.reducer;

@@ -1,11 +1,5 @@
 const NavBar = () => {
-  return (
-    <nav>
-      <p className="smXYPadding text-button bg-background border-b-[1px]">
-        this is navbar
-      </p>
-    </nav>
-  );
+  return <nav className="py-[1rem] px-[1rem] border-b-[1px]">this is navbar</nav>;
 };
 
 export default NavBar;

@@ -4,25 +4,30 @@ import { suppliers } from "@/utils/Constants";
 import InputLabel from "../Common/InputLabel";
 import Button from "../Common/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
+import {
+  resetProductSlice,
+  updateProductSlice,
+} from "@/Redux/Slices/ProductSlice";
 import { useCreateProductMutation } from "@/Redux/APIs/ProductApi";
+import { toast } from "react-toastify";
+import { useFetchSuppliersQuery } from "@/Redux/APIs/SuppliersApi";
 
 const SupplierInfoFileds = () => {
   const dispatch = useDispatch();
   const [createProudct] = useCreateProductMutation();
+  const { data } = useFetchSuppliersQuery();
+  const allSuppliers = data?.data;
   // redux state
   const {
     name,
     category,
     price,
     images,
-    buyingPrice,
-    stock,
+    purchase,
     supplier,
     newSupplier,
     sku,
     unitType,
-    expiryDate,
   } = useSelector((state) => state.product_slice);
   // dispatch function
   const dispatcher = (objKey, value) => {
@@ -37,33 +42,43 @@ const SupplierInfoFileds = () => {
 
   // create product handler function
   const createHandler = async () => {
-    // let newImages = [];
-    // for (let el of images) {
-    //   newImages?.push(el?.file);
-    // }
-    // const formData = new FormData();
-    // Array.from(newImages).forEach((file) => {
-    //   formData.append("images", file);
-    // });
-    const dummyProduct = {
-      name: "Teer Mustard Oil",
-      description: "test description",
-      images: formData,
-      category: "Dairy",
-      price: 599,
-      buyingPrice: 499,
-      stock: 100,
-      supplier: "others",
-      newSupplier: {
-        name: "Gazi Enterprise",
-        contact: "01393423093",
-        address: "123/a Baburhat, Dubai",
-      },
-      sku: "teer-5kg-mustardoil",
-      unitType: "kg",
-    };
+    // checking all required data
+    if (
+      !name ||
+      !category ||
+      !price ||
+      !purchase?.length ||
+      !supplier ||
+      !sku ||
+      !unitType ||
+      (supplier?.toLowerCase() === "others" && !newSupplier?.name)
+    ) {
+      toast.error("Please filled all requied fields");
+      return;
+    }
 
-    const newProduct = await createProudct(dummyProduct);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", "test description");
+    formData.append("category", category);
+    formData.append("price", price);
+    formData.append("purchase", JSON.stringify(purchase));
+    formData.append("supplier", supplier);
+    formData.append("newSupplier", JSON.stringify(newSupplier));
+    formData.append("sku", sku);
+    formData.append("unitType", unitType);
+    Array.from(images).forEach((file) => {
+      formData.append("images", file?.file);
+    });
+    await toast.promise(
+      createProudct(formData).unwrap(), // Unwrap to handle success/reject
+      {
+        pending: "Adding Product...",
+        success: "Product Added successfully! 🎉",
+        error: "Failed to Add Product! ❌",
+      }
+    );
+    dispatch(resetProductSlice());
   };
 
   return (
@@ -73,9 +88,10 @@ const SupplierInfoFileds = () => {
         <div>
           <SelectCompObj
             label="Supplier"
-            options={suppliers}
+            options={allSuppliers}
             action={dispatcher}
             actionFor={"supplier"}
+            required={true}
           />
         </div>
         {supplier.toString().toLowerCase() === "others" && (
@@ -91,6 +107,7 @@ const SupplierInfoFileds = () => {
                   value={newSupplier?.name}
                   action={dispatcherSupplier}
                   actionFor={"name"}
+                  required={true}
                 />
               </div>
               <div>

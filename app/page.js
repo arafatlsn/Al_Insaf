@@ -1,14 +1,9 @@
-import { url } from "@/utils/url";
+import DashboardPage from "@/components/Pages/DashboardPage";
 
 export default async function Home() {
-  let products;
-  try {
-    const data = await fetch(`${url}/product`);
-    products = await data.json();
-  } catch (error) {}
   return (
-    <div>
-      <p>this is shop page.</p>
-    </div>
+    <main>
+      <DashboardPage />
+    </main>
   );
 }

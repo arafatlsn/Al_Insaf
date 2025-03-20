@@ -1,7 +1,7 @@
 "use client";
 import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const ProductImages = () => {
