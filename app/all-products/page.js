@@ -1,7 +1,7 @@
 const page = () => {
   return (
     <main>
-      this is all product page
+      this is all product page.
     </main>
   );
 };
