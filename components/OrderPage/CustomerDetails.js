@@ -28,10 +28,14 @@ const CustomerDetails = () => {
   };
   // place order
   const placeOrder = async () => {
-    if (cart?.length === 0) {
+    if (
+      cart?.length === 0 ||
+      !customer ||
+      (customer === "others" && !newCustomer?.name)
+    ) {
+      toast.error("Please Filled All Required Fields")
       return;
     }
-    console.log("cart:", cart);
     const products = [];
     let totalAmount = 0;
     let costing = 0;

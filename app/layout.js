@@ -15,12 +15,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <div className="w-full flex">
-          <div className="min-w-[220px] h-screen border-r-[1px]">
+          <div className="min-w-[220px] max-w-[220px] h-screen border-r-[1px]">
             <SideBar />
           </div>
           <div className="grow">
-            <NavBar />
-            <div className="max-h-full smXYPadding bg-foreground">
+            {/* <NavBar /> */}
+            <div className="min-h-screen smXYPadding bg-foreground">
               <IndexWrapper>{children}</IndexWrapper>
             </div>
           </div>

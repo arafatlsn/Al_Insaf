@@ -191,7 +191,7 @@ const BasicInfoFields = () => {
             </div>
           </div>
           <div>
-            <button className="button bg-button mt-[25px] h-[38px] px-[10px]">
+            <button className="button bg-primary mt-[25px] h-[38px] px-[10px]">
               add
             </button>
           </div>

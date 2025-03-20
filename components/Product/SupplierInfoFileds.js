@@ -54,7 +54,7 @@ const SupplierInfoFileds = () => {
       (supplier?.toLowerCase() === "others" && !newSupplier?.name)
     ) {
       toast.error("Please filled all requied fields");
-      // return;
+      return;
     }
 
     const formData = new FormData();

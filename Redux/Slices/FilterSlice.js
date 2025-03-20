@@ -5,6 +5,10 @@ const initialState = {
     filter: "",
     search: "",
   },
+  filterProducts: {
+    filter: "",
+    search: "",
+  },
 };
 
 export const FilterSlice = createSlice({

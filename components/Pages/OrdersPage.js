@@ -43,24 +43,25 @@ const OrdersPage = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-[1rem]">
+      <div className="flex items-center justify-between py-[1rem]">
         <div className="flex items-center gap-[2rem]">
           <h3 className="mdFont font-bold">Order History</h3>
           <div className="h-[40px]">
             <input
               ref={searchRef}
-              onChange={e => {
-                if(e.target?.value?.length === 0){
-                  addingSearchText()
+              onChange={(e) => {
+                if (e.target?.value?.length === 0) {
+                  addingSearchText();
                 }
               }}
               onKeyUp={addingSearchText}
               className="h-full w-[300px] border rounded-l-[6px] focus:outline-none pl-[10px]"
               type="text"
+              placeholder="Name, Phone, Address"
             />
             <button
               onClick={addingSearchText}
-              className="h-full px-[10px] bg-button text-white rounded-r-[6px]"
+              className="h-full px-[10px] bg-primary text-white rounded-r-[6px]"
             >
               Search
             </button>
@@ -74,7 +75,9 @@ const OrdersPage = () => {
           />
         </div>
       </div>
-      <TableOrder data={data?.data} />
+      <div className="mdXYPadding rounded-[10px] bg-background">
+        <TableOrder data={data?.data} />
+      </div>
     </div>
   );
 };

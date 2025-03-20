@@ -7,11 +7,22 @@ import cloudinary from "@/utils/cloudinary";
 import mongoose from "mongoose";
 
 export async function GET(req) {
-  // database connection
   await connectDB();
+  const searchParams = req.nextUrl.searchParams;
+  const filter = searchParams.get("filter");
+  const search = searchParams.get("search");
+  let query = {};
 
   try {
-    const products = await Product.find();
+    if (search) {
+      // Search for customer details, NOT by _id
+      query.$or = [
+        { name: { $regex: search, $options: "i" } }, // Case-insensitive search by name
+        { sku: { $regex: search, $options: "i" } }, // Search by address
+        { category: { $regex: search, $options: "i" } }, // Search by contact
+      ];
+    }
+    const products = await Product.find(query);
     return NextResponse.json({ data: products }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error?.message }, { status: 500 });

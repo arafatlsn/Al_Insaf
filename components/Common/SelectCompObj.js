@@ -29,7 +29,7 @@ const SelectCompObj = ({
         <SelectTrigger
           className={`w-full ${
             size === "large" ? "h-[40px]" : "h-[30px]"
-          } border-third focus:outline-none focus:ring-0 capitalize`}
+          } border-primary focus:outline-none focus:ring-0 capitalize`}
         >
           <SelectValue placeholder="Select Your Choice" />
         </SelectTrigger>

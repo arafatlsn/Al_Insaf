@@ -7,11 +7,9 @@
   --foreground: #f8f8fa;
   --primary: #3a7dff;
   --secondary: #f4a261;
-  --third: #2a9d8f;
-  --button: #42d674;
   --lightText: #23262d;
-  --success: #208B59;
-  --failed: #FF3333;
+  --success: #208b59;
+  --failed: #ff3333;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -69,8 +67,8 @@ body {
 }
 
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-primary,
+input::-webkit-inner-spin-primary {
   -webkit-appearance: none;
   margin: 0;
 }

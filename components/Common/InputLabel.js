@@ -19,7 +19,7 @@ const InputLabel = ({
         {title} {required && <span className="text-red-500">*</span>}
       </label>
       <input
-        className="h-[40px] px-[8px] bg-foreground rounded-[6px] border-[.2px] border-third focus:outline-third cShadow"
+        className="h-[40px] px-[8px] bg-foreground rounded-[6px] border-[.2px] border-primary focus:outline-primary cShadow"
         type={type}
         placeholder={placeHolder}
         name={name}
