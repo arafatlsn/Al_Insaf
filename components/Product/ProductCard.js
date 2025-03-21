@@ -60,11 +60,11 @@ const ProductCard = ({ product }) => {
             <span className="text-[14px] uppercase">{product?.unitType}</span>
           </h3>
         </div>
-        <div className="w-full grid grid-cols-2 gap-[6px]">
-          <button onClick={addCartHandler} className="button bg-primary">
+        <div className="w-full flex flex-wrap gap-[6px] mt-[1rem] whitespace-nowrap">
+          <button onClick={addCartHandler} className="px-[1rem] button bg-primary">
             Add to Cart
           </button>
-          <button onClick={placeOrder} className="button bg-secondary">
+          <button onClick={placeOrder} className="px-[1rem] button bg-secondary">
             Order
           </button>
         </div>

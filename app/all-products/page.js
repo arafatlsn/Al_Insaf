@@ -1,7 +1,9 @@
+import AllProductPage from "@/components/Pages/AllProductPage";
+
 const page = () => {
   return (
     <main>
-      this is all product page.
+      <AllProductPage />
     </main>
   );
 };

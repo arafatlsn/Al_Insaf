@@ -16,6 +16,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { toDateStringFn } from "@/utils/toDateStringFn";
+import PlusIcon from "../Icons/PlusIcon";
 
 const BasicInfoFields = () => {
   const [selectedDate, setDate] = useState(null);
@@ -191,8 +192,8 @@ const BasicInfoFields = () => {
             </div>
           </div>
           <div>
-            <button className="button bg-primary mt-[25px] h-[38px] px-[10px]">
-              add
+            <button className="button bg-primary mt-[30px] h-[38px] px-[10px]">
+              <PlusIcon />
             </button>
           </div>
         </form>
