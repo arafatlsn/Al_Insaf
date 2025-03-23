@@ -8,7 +8,7 @@ const IndexWrapper = ({ children }) => {
     <Provider store={store}>
       {children}
       <ToastContainer
-        position="bottom-left"
+        position="top-center"
         autoClose={10000}
         hideProgressBar={true}
         newestOnTop={false}

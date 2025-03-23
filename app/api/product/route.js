@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { fileToBuffer } from "@/utils/fileToBuffer";
 import cloudinary from "@/utils/cloudinary";
 import mongoose from "mongoose";
+import PurchaseHistoryModel from "@/DB/Models/PurchaseHistoryModel";
 
 export async function GET(req) {
   await connectDB();
@@ -103,6 +104,7 @@ export async function POST(req) {
     // 2️⃣ create the product
     const newProduct = await Product.create([productObj], { session });
     const productId = newProduct[0]._id;
+    const addedProduct = newProduct[0];
 
     // Upload images to Cloudinary
     const uploadPromises = images.map(async (image) => {
@@ -127,6 +129,23 @@ export async function POST(req) {
       },
       { session }
     );
+    // 4️⃣ add the purchases to purchase history collection
+    for (let purchase of addedProduct?.purchase) {
+      let newObj = {
+        product: addedProduct?._id,
+        buyingCost: purchase?.buyingCost,
+        serviceCost: purchase?.serviceCost,
+        sellingPrice: purchase?.sellingPrice,
+        addedStock: purchase?.stock,
+        totalCost:
+          (purchase?.buyingCost + purchase?.serviceCost) * purchase?.stock,
+      };
+
+      const addedHistoryRes = await PurchaseHistoryModel.create([newObj], {
+        session,
+      });
+    }
+
     await session.commitTransaction();
     session.endSession();
     return NextResponse.json(

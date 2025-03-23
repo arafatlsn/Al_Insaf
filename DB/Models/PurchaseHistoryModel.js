@@ -10,7 +10,8 @@ export const PurchaseHistorySchema = new mongoose.Schema(
     buyingCost: { type: Number, required: true, default: 0 },
     serviceCost: { type: Number, default: 0 },
     sellingPrice: { type: Number, required: true, default: 0 },
-    addedStock: { type: Number, required: true, default: 0},
+    addedStock: { type: Number, required: true, default: 0 },
+    totalCost: { type: Number, required: true, default: 0 },
   },
   { timestamps: true }
 );

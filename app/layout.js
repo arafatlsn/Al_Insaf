@@ -13,9 +13,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <div className="w-full flex">
-          <div className="min-w-[220px] max-w-[220px] h-screen border-r-[1px]">
+      <body className="">
+        <div className="max-w-[1280px] mx-auto w-full flex">
+          <div className="min-w-[220px] max-w-[220px] h-screen border-r-[1px] border">
             <SideBar />
           </div>
           <div className="grow">

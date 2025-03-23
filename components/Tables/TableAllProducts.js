@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { toDateStringFn } from "@/utils/toDateStringFn";
 
 const TableAllProducts = ({ data }) => {
   return (
@@ -14,7 +15,7 @@ const TableAllProducts = ({ data }) => {
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
-          <TableHead>Category</TableHead>
+          <TableHead className="text-left px-0">Purchases History</TableHead>
           <TableHead>Stock</TableHead>
           <TableHead>Sold</TableHead>
           <TableHead>Invest</TableHead>
@@ -24,14 +25,35 @@ const TableAllProducts = ({ data }) => {
       </TableHeader>
       <TableBody>
         {data?.map((el) => (
-          <TableRow key={el?._id}>
-            <TableCell>{el?.name}</TableCell>
-            <TableCell>{el?.category}</TableCell>
-            <TableCell>{el?.totalStock}</TableCell>
-            <TableCell>{el?.sold}</TableCell>
-            <TableCell>{el?.invest}</TableCell>
-            <TableCell>{el?.price}</TableCell>
-            <TableCell><button>Delete</button></TableCell>
+          <TableRow className="odd:bg-background" key={el?._id}>
+            <TableCell className="align-top">{el?.name}</TableCell>
+            <TableCell className="align-top p-0">
+              <Table className="p-0 m-0">
+                <TableHeader className="p-0">
+                  <TableRow className="h-3 p-0 m-0">
+                    <TableHead className="py-0 pt-1 px-0 h-0">Cost</TableHead>
+                    <TableHead className="py-0 pt-1 px-0 h-0">Stock</TableHead>
+                    <TableHead className="py-0 pt-1 px-0 h-0">Expired</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className="p-0">
+                  {el?.purchase?.map((el) => (
+                    <TableRow className="h-3 p-0 m-0" key={el?._id}>
+                      <TableCell className="py-1 px-0">{el?.buyingCost + el?.serviceCost}</TableCell>
+                      <TableCell className="py-1 px-0">{el?.stock}</TableCell>
+                      <TableCell className="py-1 px-0">{toDateStringFn(el?.expired)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableCell>
+            <TableCell className="align-top">{el?.totalStock}</TableCell>
+            <TableCell className="align-top">{el?.sold}</TableCell>
+            <TableCell className="align-top">{el?.invest}</TableCell>
+            <TableCell className="align-top">{el?.price}</TableCell>
+            <TableCell className="align-top">
+              <button>Delete</button>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

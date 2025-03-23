@@ -11,7 +11,7 @@ const PickDate = ({
   setDate,
 }) => {
   return (
-    <div className="flex flex-col gap-[2px]">
+    <div className="w-full flex flex-col gap-[2px]">
       <label className="capitalize" htmlFor={htmlFor}>
         {title} {required && <span className="text-red-500">*</span>}
       </label>
@@ -20,7 +20,7 @@ const PickDate = ({
         onChange={(date) => setDate(date)}
         dateFormat="dd-MM-yyyy"
         name={name}
-        className="h-[40px] px-[8px] bg-foreground rounded-[6px] border-[.2px] border-primary focus:outline-primary cShadow box-border"
+        className="w-full h-[40px] px-[8px] bg-foreground rounded-[6px] border-[.2px] border-primary focus:outline-primary cShadow box-border"
         placeholderText="ex. 10-10-2027"
       />
     </div>

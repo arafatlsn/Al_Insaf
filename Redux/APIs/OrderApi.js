@@ -8,6 +8,7 @@ export const OrderApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["orders", "products"],
     }),
     fetchOrders: builder.query({
       query: ({ filter, search }) =>
