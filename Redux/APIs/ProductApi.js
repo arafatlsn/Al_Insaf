@@ -16,7 +16,7 @@ export const createProductApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["suppliers"],
+      invalidatesTags: ["suppliers", "dashboard"],
     }),
   }),
 });
