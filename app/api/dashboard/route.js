@@ -2,7 +2,7 @@ import OrderModel from "@/DB/Models/OrderModel";
 import Product from "@/DB/Models/ProductModel";
 import PurchaseHistory from "@/DB/Models/PurchaseHistoryModel";
 import { connectDB } from "@/utils/db";
-import moment from "moment";
+import moment from "moment-timezone";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
@@ -10,8 +10,8 @@ export async function GET(req) {
     await connectDB();
 
     let queryDate = "1d";
-    let startDate = new Date();
-    let today = new Date();
+    let startDate = moment().tz("Asia/Dhaka").startOf("day").toDate();
+    let today = moment().tz("Asia/Dhaka").startOf("day").toDate();
     today.setHours(23, 59, 59, 999);
     // calculate the time
     if (queryDate === "1d") {
@@ -21,11 +21,11 @@ export async function GET(req) {
       startDate.setHours(0, 0, 0, 0);
     }
 
-    const startOfMonth = new Date();
+    const startOfMonth = moment().tz("Asia/Dhaka").startOf("day").toDate();
     startOfMonth.setDate(1);
     startOfMonth.setHours(0, 0, 0, 0);
 
-    const oneMonthFromNow = new Date();
+    const oneMonthFromNow = moment().tz("Asia/Dhaka").startOf("day").toDate();
     oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
 
     // querieng for business summary
@@ -141,8 +141,11 @@ export async function GET(req) {
     ]);
 
     // get all dates of a month
-    const todayDate = moment().format("YYYY-MM-DD"); // Current date
-    const startOfMonthDate = moment().startOf("month").format("YYYY-MM-DD");
+    const todayDate = moment().tz("Asia/Dhaka").format("YYYY-MM-DD"); // Current date
+    const startOfMonthDate = moment()
+      .tz("Asia/Dhaka")
+      .startOf("month")
+      .format("YYYY-MM-DD");
 
     const allDates = [];
     let date = moment(startOfMonthDate);
@@ -164,6 +167,7 @@ export async function GET(req) {
       TotalSales: salesMap[date] || 0,
       TotalPurchase: purchasesMap[date] || 0,
     }));
+
     return NextResponse.json(
       {
         data: {
@@ -172,7 +176,7 @@ export async function GET(req) {
           getPurchase,
           salesPurchaseData,
           lessStocks,
-          lessExpired
+          lessExpired,
         },
       },
       { status: 200 }

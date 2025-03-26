@@ -7,7 +7,6 @@ import LessExpired from "../Dashboard/LessExpired";
 
 const DashboardPage = () => {
   const { data } = useDashbaordDataQuery();
-  console.log("data: ", data);
   return (
     <div className="flex gap-[10px]">
       <div className="grow flex flex-col gap-[2rem]">
