@@ -5,7 +5,7 @@ const Button = ({ text, action }) => {
   return (
     <button
       onClick={action}
-      className="w-full h-[42px] bg-primary text-white hover:bg-white hover:border-[2px] hover:text-primary border-primary rounded-[.3rem] transation font-semibold mt-[1rem]"
+      className="w-full h-[42px] bg-primary hover:bg-success border-secondary text-white rounded-[.3rem] transation font-semibold mt-[1rem] transition-all"
     >
       {text}
     </button>

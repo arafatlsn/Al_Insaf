@@ -9,14 +9,14 @@ const ProductCard = ({ product }) => {
   const router = useRouter();
   // handle product to cart
   const addCartHandler = () => {
-    const newProduct = {...product};
+    const newProduct = { ...product };
     newProduct["selectedPurchase"] = newProduct?.purchase[0];
     dispatch(addToCart(newProduct));
   };
 
   // handle to navigate order page
   const placeOrder = () => {
-    const newProduct = {...product};
+    const newProduct = { ...product };
     newProduct["selectedPurchase"] = newProduct?.purchase[0];
     dispatch(addToCart(newProduct));
     router.push("/place-order");
@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="flex gap-[.3rem] bg-background">
       {/* image side  */}
-      <div className="border-r-[1px]">
+      <div className="min-w-[200px] border-r-[1px]">
         {product?.images?.length > 0 ? (
           <Image
             src={product?.images[0]}
@@ -44,10 +44,15 @@ const ProductCard = ({ product }) => {
           />
         )}
       </div>
-      <div className="smXYPadding grow">
+      <div className="smXYPadding grow overflow-hidden">
         <h6 className="text-[14px] font-[500]">{product?.sku}</h6>
-        <h2 className="mdFont font-semibold text-secondary">{product?.name}</h2>
-        <p>{product?.description}</p>
+        <h2
+          title={product?.name}
+          className="mdFont font-semibold text-secondary truncate"
+        >
+          {product?.name}
+        </h2>
+        {/* <p>{product?.description}</p> */}
         <div className="flex items-center">
           <Image
             src={"/Assets/icons/currency-bdt.svg"}
@@ -60,11 +65,17 @@ const ProductCard = ({ product }) => {
             <span className="text-[14px] uppercase">{product?.unitType}</span>
           </h3>
         </div>
-        <div className="w-full grid grid-cols-2 gap-[6px]">
-          <button onClick={addCartHandler} className="button bg-primary">
+        <div className="w-full flex flex-wrap gap-[6px] mt-[1rem] whitespace-nowrap">
+          <button
+            onClick={addCartHandler}
+            className="px-[1rem] button bg-primary"
+          >
             Add to Cart
           </button>
-          <button onClick={placeOrder} className="button bg-secondary">
+          <button
+            onClick={placeOrder}
+            className="px-[1rem] button bg-secondary"
+          >
             Order
           </button>
         </div>

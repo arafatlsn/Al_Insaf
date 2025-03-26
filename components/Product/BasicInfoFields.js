@@ -16,6 +16,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { toDateStringFn } from "@/utils/toDateStringFn";
+import PlusIcon from "../Icons/PlusIcon";
 
 const BasicInfoFields = () => {
   const [selectedDate, setDate] = useState(null);
@@ -62,7 +63,9 @@ const BasicInfoFields = () => {
 
   return (
     <div className="bg-background smXYPadding rounded-[10px]">
-      <h3 className="mdFont text-lightText mb-[1rem]">Basic Information</h3>
+      <h3 className="mdFont font-[600] text-lightText mb-[1rem]">
+        Basic Information
+      </h3>
       <div className="flex flex-col gap-[1rem]">
         <div>
           <InputLabel
@@ -99,103 +102,110 @@ const BasicInfoFields = () => {
             action={dispatcher}
             actionFor="price"
           />
-        </div>
-        {/* SHOW ADDED PURCHASES */}
-        {purchase?.length > 0 && (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Buying</TableHead>
-                <TableHead>Service</TableHead>
-                <TableHead>Stock</TableHead>
-                <TableHead>Selling</TableHead>
-                <TableHead>Expired</TableHead>
-                <TableHead></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {purchase?.map((el, index) => (
-                <TableRow key={el?.id}>
-                  <TableCell>{el?.buyingCost}</TableCell>
-                  <TableCell>{el?.serviceCost}</TableCell>
-                  <TableCell>{el?.stock}</TableCell>
-                  <TableCell>{el?.sellingPrice}</TableCell>
-                  <TableCell>{`${toDateStringFn(el?.expired)}`}</TableCell>
-                  <TableCell>
-                    <button onClick={() => removePurchase(index)}>
-                      delete
-                    </button>
-                  </TableCell>
+          </div>
+          <div className="bg-gray-100 p-[10px]">
+            <h4 className="font-[600]">Purchases</h4>
+          {/* SHOW ADDED PURCHASES */}
+          {purchase?.length > 0 && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Buying</TableHead>
+                  <TableHead>Service</TableHead>
+                  <TableHead>Stock</TableHead>
+                  <TableHead>Selling</TableHead>
+                  <TableHead>Expired</TableHead>
+                  <TableHead></TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-        {/* PURCHASE FIELDS  */}
-        <form
-          onSubmit={purchaseDispatcher}
-          className="w-full flex items-center gap-[20px]"
-        >
-          <div className="grow w-full grid grid-cols-5 items-center gap-[1rem]">
-            <div>
-              <InputLabel
-                title="Buying Cost"
-                type="number"
-                htmlFor="buying_cost"
-                name="buying_cost"
-                id="buying_cost"
-                placeHolder="Buying Cost"
-                required={true}
-              />
+              </TableHeader>
+              <TableBody>
+                {purchase?.map((el, index) => (
+                  <TableRow key={el?.id}>
+                    <TableCell>{el?.buyingCost}</TableCell>
+                    <TableCell>{el?.serviceCost}</TableCell>
+                    <TableCell>{el?.stock}</TableCell>
+                    <TableCell>{el?.sellingPrice}</TableCell>
+                    <TableCell>{`${toDateStringFn(el?.expired)}`}</TableCell>
+                    <TableCell>
+                      <button onClick={() => removePurchase(index)}>
+                        delete
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+          {/* PURCHASE FIELDS  */}
+          <form
+            onSubmit={purchaseDispatcher}
+            className="w-full flex items-center gap-[20px]"
+          >
+            <div className="grow w-full">
+              <div className="grid grid-cols-3 gap-[10px]">
+                <div>
+                  <InputLabel
+                    title="Buying Cost"
+                    type="number"
+                    htmlFor="buying_cost"
+                    name="buying_cost"
+                    id="buying_cost"
+                    placeHolder="Buying Cost"
+                    required={true}
+                  />
+                </div>
+                <div>
+                  <InputLabel
+                    title="Service Cost"
+                    type="number"
+                    htmlFor="service_cost"
+                    name="service_cost"
+                    id="service_cost"
+                    placeHolder="Service Cost"
+                  />
+                </div>
+                <div>
+                  <InputLabel
+                    title="Selling Price"
+                    type="number"
+                    htmlFor="selling_price"
+                    name="selling_price"
+                    id="selling_price"
+                    placeHolder="Selling Price"
+                    required={true}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-[10px]">
+                <div>
+                  <InputLabel
+                    title="Stock"
+                    type="number"
+                    htmlFor="stock"
+                    name="stock"
+                    id="stock"
+                    placeHolder="Stock"
+                    required={true}
+                  />
+                </div>
+                <div>
+                  <PickDate
+                    title="Expired"
+                    name="expired_date"
+                    htmlFor="expired_date"
+                    selectedDate={selectedDate}
+                    setDate={setDate}
+                  />
+                </div>
+              </div>
+              <div className="mt-[10px]">
+                <button className="flex items-center justify-center gap-[6px] button bg-primary h-[38px] px-[10px]">
+                  <PlusIcon /> <span>Add to purchase</span>
+                </button>
+              </div>
             </div>
-            <div>
-              <InputLabel
-                title="Service Cost"
-                type="number"
-                htmlFor="service_cost"
-                name="service_cost"
-                id="service_cost"
-                placeHolder="Service Cost"
-              />
-            </div>
-            <div>
-              <InputLabel
-                title="Stock"
-                type="number"
-                htmlFor="stock"
-                name="stock"
-                id="stock"
-                placeHolder="Stock"
-                required={true}
-              />
-            </div>
-            <div>
-              <InputLabel
-                title="Selling Price"
-                type="number"
-                htmlFor="selling_price"
-                name="selling_price"
-                id="selling_price"
-                placeHolder="Selling Price"
-                required={true}
-              />
-            </div>
-            <div>
-              <PickDate
-                title="Expired"
-                name="expired_date"
-                htmlFor="expired_date"
-                selectedDate={selectedDate}
-                setDate={setDate}
-              />
-            </div>
-          </div>
-          <div>
-            <button className="button bg-primary mt-[25px] h-[38px] px-[10px]">
-              add
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
         <div className="w-full grid grid-cols-2 items-center gap-[1rem]">
           <div>
             <InputLabel

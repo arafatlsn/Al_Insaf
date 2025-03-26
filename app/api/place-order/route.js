@@ -56,7 +56,8 @@ export async function POST(req) {
 
       findProduct["invest"] = invest;
       findProduct["totalStock"] -= product?.quantity;
-      findProduct["sold"] += product?.quantity;
+      findProduct["sold"] =
+        Number(findProduct["sold"]) + Number(product?.quantity);
       findProduct["purchase"] = newPurchases;
       await findProduct.save({ session });
     }
@@ -67,7 +68,7 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("error place order:", error?.message);
+    console.log("place order error:", error?.message);
     await session.abortTransaction();
     session.endSession();
     return NextResponse.json({ error: error?.message }, { status: 500 });

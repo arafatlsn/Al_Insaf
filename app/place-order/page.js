@@ -1,4 +1,4 @@
-import OrderPage from "@/components/Pages/OrderPage";
+import OrderPage from "@/components/Pages/PlaceOrderPage";
 
 const page = () => {
   return (

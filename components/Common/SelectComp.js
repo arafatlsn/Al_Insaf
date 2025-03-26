@@ -16,7 +16,7 @@ const SelectComp = ({
   required = false,
 }) => {
   return (
-    <Select onValueChange={(e) => action(actionFor, e)}>
+    <Select name={actionFor} onValueChange={(e) => action(actionFor, e)}>
       <SelectGroup>
         <SelectLabel className="capitalize mb-[4px]">
           {label} {required && <span className="text-red-500">*</span>}

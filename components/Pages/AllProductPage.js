@@ -1,14 +1,16 @@
 "use client";
 import { useFetchProductsQuery } from "@/Redux/APIs/ProductApi";
-import ProductCard from "../Product/ProductCard";
-import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateOrderFilter } from "@/Redux/Slices/FilterSlice";
+import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import TableAllProducts from "../Tables/TableAllProducts";
 
-const ShopPage = () => {
+const AllProductPage = () => {
   const dispatch = useDispatch();
   const searchRef = useRef();
-  const { filterProducts } = useSelector((state) => state.filter_slice);
+  const [filterProducts, setFilterProducts] = useState({
+    filter: "",
+    search: "",
+  });
   const data = useFetchProductsQuery({
     filter: filterProducts?.filter,
     search: filterProducts?.search,
@@ -52,13 +54,11 @@ const ShopPage = () => {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
-        {products?.map((product) => (
-          <ProductCard key={product?._id} product={product} />
-        ))}
+      <div>
+        <TableAllProducts data={products} />
       </div>
     </div>
   );
 };
 
-export default ShopPage;
+export default AllProductPage;
