@@ -7,27 +7,27 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
   try {
-    await connectDB()
+    await connectDB();
     let queryDate = "1d";
-    let startDate = moment().tz("Asia/Dhaka").startOf("day").toDate();
-    let today = moment().tz("Asia/Dhaka").startOf("day").toDate();
-    today.setHours(23, 59, 59, 999);
-    // calculate the time
+    let startDate = moment().tz("Asia/Dhaka").startOf("day");
+    let today = moment().tz("Asia/Dhaka").startOf("day");
+    today.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
+
     if (queryDate === "1d") {
-      startDate.setHours(0, 0, 0, 0);
+      startDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     } else if (queryDate === "7d") {
-      startDate.setDate(startDate.getDate() - 6); // Go back 6 days (including today)
-      startDate.setHours(0, 0, 0, 0);
+      startDate.subtract(6, "days").set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     }
 
-    const startOfMonth = moment().tz("Asia/Dhaka").startOf("day").toDate();
-    startOfMonth.setDate(1);
-    startOfMonth.setHours(0, 0, 0, 0);
+    const startDateISO = startDate.toISOString();
+    const todayISO = today.toISOString();
 
-    const oneMonthFromNow = moment().tz("Asia/Dhaka").startOf("day").toDate();
-    oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+    const startOfMonth = moment().tz("Asia/Dhaka").startOf("month");
+    const oneMonthFromNow = moment().tz("Asia/Dhaka").startOf("day").add(1, "month");
 
-    // querieng for business summary
+    const startOfMonthISO = startOfMonth.toISOString();
+    const oneMonthFromNowISO = oneMonthFromNow.toISOString();
+
     const [totalInvest, lessStocks, lessExpired, getSales, getPurchase] =
       await Promise.all([
         Product.aggregate([
@@ -60,7 +60,7 @@ export async function GET(req) {
           { $unwind: "$purchase" },
           {
             $match: {
-              nextExpiredDate: { $lte: oneMonthFromNow, $ne: null },
+              nextExpiredDate: { $lte: new Date(oneMonthFromNowISO), $ne: null },
             },
           },
           {
@@ -79,7 +79,7 @@ export async function GET(req) {
         OrderModel.aggregate([
           {
             $match: {
-              orderDate: { $gte: startDate, $lte: today },
+              orderDate: { $gte: new Date(startDateISO), $lte: new Date(todayISO) },
             },
           },
           {
@@ -95,7 +95,7 @@ export async function GET(req) {
         PurchaseHistory.aggregate([
           {
             $match: {
-              createdAt: { $gte: startDate, $lte: today },
+              createdAt: { $gte: new Date(startDateISO), $lte: new Date(todayISO) },
             },
           },
           {
@@ -107,12 +107,11 @@ export async function GET(req) {
         ]),
       ]);
 
-    // querieng for sales purchases chart
     const [sales, purchases] = await Promise.all([
       OrderModel.aggregate([
         {
           $match: {
-            orderDate: { $gte: startOfMonth, $lte: today },
+            orderDate: { $gte: new Date(startOfMonthISO), $lte: new Date(todayISO) },
           },
         },
         {
@@ -126,7 +125,7 @@ export async function GET(req) {
       PurchaseHistory.aggregate([
         {
           $match: {
-            createdAt: { $gte: startOfMonth, $lte: today },
+            createdAt: { $gte: new Date(startOfMonthISO), $lte: new Date(todayISO) },
           },
         },
         {
@@ -139,8 +138,7 @@ export async function GET(req) {
       ]),
     ]);
 
-    // get all dates of a month
-    const todayDate = moment().tz("Asia/Dhaka").format("YYYY-MM-DD"); // Current date
+    const todayDate = moment().tz("Asia/Dhaka").format("YYYY-MM-DD");
     const startOfMonthDate = moment()
       .tz("Asia/Dhaka")
       .startOf("month")
@@ -148,19 +146,18 @@ export async function GET(req) {
 
     const allDates = [];
     let date = moment(startOfMonthDate);
-
     while (date.format("YYYY-MM-DD") <= todayDate) {
       allDates.push(date.format("YYYY-MM-DD"));
       date.add(1, "day");
     }
-    // Convert sales & purchases to a lookup object for fast merging
+
     const salesMap = Object.fromEntries(
       sales?.map((s) => [s._id, s.totalSales])
     );
     const purchasesMap = Object.fromEntries(
       purchases?.map((p) => [p._id, p.totalPurchase])
     );
-    // Merge and fill missing dates with zero
+
     const salesPurchaseData = allDates?.map((date) => ({
       date: `${date?.split("-")[2]}-${date?.split("-")[1]}`,
       TotalSales: salesMap[date] || 0,
