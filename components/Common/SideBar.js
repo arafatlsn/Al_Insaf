@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 const SideBar = () => {
   const pathname = usePathname()?.split("/")[1];
-  console.log(pathname);
   return (
     <aside className="h-full bg-background">
       <Image

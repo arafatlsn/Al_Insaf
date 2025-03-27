@@ -21,7 +21,7 @@ export async function GET(req) {
         ],
       }).select("_id");
       const customerIds = customers?.map((customer) => customer._id);
-      console.log("ids:", customerIds);
+      
       query.customer = { $in: customerIds };
     }
     // Filtering logic based on query parameters

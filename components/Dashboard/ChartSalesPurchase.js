@@ -12,7 +12,6 @@ import {
 } from "recharts";
 const ChartSalesPurchase = ({ data }) => {
   const salesPurchaseData = data?.data?.salesPurchaseData;
-  console.log(salesPurchaseData);
   return (
     <div className="w-full h-[500px] bg-background p-[1rem] rounded-[10px]">
       <ResponsiveContainer width="100%" height="100%">
