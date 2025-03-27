@@ -7,8 +7,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
   try {
-    await connectDB();
-
+    await connectDB()
     let queryDate = "1d";
     let startDate = moment().tz("Asia/Dhaka").startOf("day").toDate();
     let today = moment().tz("Asia/Dhaka").startOf("day").toDate();
@@ -80,7 +79,7 @@ export async function GET(req) {
         OrderModel.aggregate([
           {
             $match: {
-              createdAt: { $gte: startDate, $lte: today },
+              orderDate: { $gte: startDate, $lte: today },
             },
           },
           {
