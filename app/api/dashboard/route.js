@@ -1,6 +1,7 @@
 import OrderModel from "@/DB/Models/OrderModel";
 import Product from "@/DB/Models/ProductModel";
 import PurchaseHistory from "@/DB/Models/PurchaseHistoryModel";
+import { convertToLocal, convertToUTC } from "@/utils/convertTime";
 import { connectDB } from "@/utils/db";
 import {
   addDays,
@@ -9,12 +10,28 @@ import {
   format,
   startOfDay,
   startOfMonth,
-  subDays,
 } from "date-fns";
 import { NextResponse } from "next/server";
 
+// Define the Bangladesh timezone
+const BANGLADESH_TIMEZONE = "Asia/Dhaka"; // UTC+6
+
 export async function GET(req) {
-  const next10Days = addDays(startOfDay(new Date()), 10);
+  // Get the current time in Bangladesh timezone
+  const nowInBangladesh = convertToLocal(new Date());
+
+  // Calculate the start and end of the day in Bangladesh timezone, then convert to UTC for MongoDB query
+  const startOfDayInBD = startOfDay(nowInBangladesh);
+  const endOfDayInBD = endOfDay(nowInBangladesh);
+
+  // Convert to UTC for MongoDB query (MongoDB stores dates in UTC)
+  const startOfDayInUTC = convertToUTC(startOfDayInBD);
+  const endOfDayInUTC = convertToUTC(endOfDayInBD);
+
+  // Calculate next 10 days in Bangladesh timezone
+  const next10DaysInBD = addDays(startOfDayInBD, 10);
+  const next10DaysInUTC = convertToUTC(next10DaysInBD);
+
   try {
     await connectDB();
 
@@ -51,7 +68,7 @@ export async function GET(req) {
           {
             $match: {
               nextExpiredDate: {
-                $lte: next10Days,
+                $lte: next10DaysInUTC,
                 $ne: null,
               },
             },
@@ -73,8 +90,8 @@ export async function GET(req) {
           {
             $match: {
               orderDate: {
-                $gte: startOfDay(new Date()),
-                $lte: endOfDay(new Date()),
+                $gte: startOfDayInUTC,
+                $lte: endOfDayInUTC,
               },
             },
           },
@@ -92,8 +109,8 @@ export async function GET(req) {
           {
             $match: {
               createdAt: {
-                $gte: startOfDay(new Date()),
-                $lte: endOfDay(new Date()),
+                $gte: startOfDayInUTC,
+                $lte: endOfDayInUTC,
               },
             },
           },
@@ -106,19 +123,30 @@ export async function GET(req) {
         ]),
       ]);
 
+    // For monthly sales and purchases, also adjust for timezone
+    const startOfMonthInBD = startOfMonth(nowInBangladesh);
+    const startOfMonthInUTC = convertToUTC(startOfMonthInBD);
+    const endOfDayInUTCForMonth = convertToUTC(endOfDayInBD);
+
     const [sales, purchases] = await Promise.all([
       OrderModel.aggregate([
         {
           $match: {
             orderDate: {
-              $gte: startOfMonth(new Date()),
-              $lte: endOfDay(new Date()),
+              $gte: startOfMonthInUTC,
+              $lte: endOfDayInUTCForMonth,
             },
           },
         },
         {
           $group: {
-            _id: { $dateToString: { format: "%Y-%m-%d", date: "$orderDate" } },
+            _id: {
+              $dateToString: {
+                format: "%Y-%m-%d",
+                date: "$orderDate",
+                timezone: BANGLADESH_TIMEZONE,
+              },
+            },
             totalSales: { $sum: "$totalAmount" },
           },
         },
@@ -128,14 +156,20 @@ export async function GET(req) {
         {
           $match: {
             createdAt: {
-              $gte: startOfMonth(new Date()),
-              $lte: endOfDay(new Date()),
+              $gte: startOfMonthInUTC,
+              $lte: endOfDayInUTCForMonth,
             },
           },
         },
         {
           $group: {
-            _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+            _id: {
+              $dateToString: {
+                format: "%Y-%m-%d",
+                date: "$createdAt",
+                timezone: BANGLADESH_TIMEZONE,
+              },
+            },
             totalPurchase: { $sum: "$totalCost" },
           },
         },
@@ -143,8 +177,8 @@ export async function GET(req) {
       ]),
     ]);
 
-    const start = startOfMonth(new Date());
-    const end = endOfDay(new Date());
+    const start = startOfMonthInBD;
+    const end = endOfDayInBD;
     const allDates = eachDayOfInterval({ start, end }).map((date) =>
       format(date, "yyyy-MM-dd")
     );
