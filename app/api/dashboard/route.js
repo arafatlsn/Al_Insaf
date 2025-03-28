@@ -24,6 +24,7 @@ export async function GET(req) {
   const startOfDayInBD = startOfDay(nowInBangladesh);
   const endOfDayInBD = endOfDay(nowInBangladesh);
 
+  
   // Convert to UTC for MongoDB query (MongoDB stores dates in UTC)
   const startOfDayInUTC = convertToUTC(startOfDayInBD);
   const endOfDayInUTC = convertToUTC(endOfDayInBD);
@@ -89,8 +90,8 @@ export async function GET(req) {
           {
             $match: {
               orderDate: {
-                $gte: startOfDayInBD,
-                $lte: endOfDayInBD,
+                $gte: startOfDayInUTC,
+                $lte: endOfDayInUTC,
               },
             },
           },
