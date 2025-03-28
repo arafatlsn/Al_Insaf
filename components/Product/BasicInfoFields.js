@@ -104,7 +104,7 @@ const BasicInfoFields = () => {
           />
           </div>
           <div className="bg-gray-100 p-[10px]">
-            <h4 className="font-[600]">Purchases</h4>
+            <h4 className="font-[600] text-[1.3rem]">Purchases</h4>
           {/* SHOW ADDED PURCHASES */}
           {purchase?.length > 0 && (
             <Table>

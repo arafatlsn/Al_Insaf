@@ -63,7 +63,10 @@ export const OrderSchema = new mongoose.Schema(
       required: true,
     },
     notes: { type: String },
-    orderDate: { type: Date, default: moment().tz("Asia/Dhaka").toDate() },
+    orderDate: {
+      type: Date,
+      default: () => moment().tz("Asia/Dhaka").toDate(),
+    },
   },
   { timestamps: true }
 );
