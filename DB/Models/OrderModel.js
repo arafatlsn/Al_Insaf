@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import moment from "moment-timezone";
 
 export const OrderSchema = new mongoose.Schema(
   {
@@ -65,7 +64,7 @@ export const OrderSchema = new mongoose.Schema(
     notes: { type: String },
     orderDate: {
       type: Date,
-      default: () => moment().tz("Asia/Dhaka").toDate(),
+      default: () => new Date(),
     },
   },
   { timestamps: true }

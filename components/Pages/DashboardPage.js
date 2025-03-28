@@ -4,7 +4,6 @@ import BusinessSummary from "../Dashboard/BusinessSummary";
 import ChartSalesPurchase from "../Dashboard/ChartSalesPurchase";
 import LessStocks from "../Dashboard/LessStocks";
 import LessExpired from "../Dashboard/LessExpired";
-import moment from 'moment-timezone'
 
 const DashboardPage = () => {
   const { data } = useDashbaordDataQuery();
