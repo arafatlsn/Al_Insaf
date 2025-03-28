@@ -27,7 +27,6 @@ export async function GET(req) {
   // Convert to UTC for MongoDB query (MongoDB stores dates in UTC)
   const startOfDayInUTC = convertToUTC(startOfDayInBD);
   const endOfDayInUTC = convertToUTC(endOfDayInBD);
-
   // Calculate next 10 days in Bangladesh timezone
   const next10DaysInBD = addDays(startOfDayInBD, 10);
   const next10DaysInUTC = convertToUTC(next10DaysInBD);
@@ -90,8 +89,8 @@ export async function GET(req) {
           {
             $match: {
               orderDate: {
-                $gte: startOfDayInUTC,
-                $lte: endOfDayInUTC,
+                $gte: startOfDayInBD,
+                $lte: endOfDayInBD,
               },
             },
           },
