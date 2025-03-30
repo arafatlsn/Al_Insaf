@@ -25,8 +25,10 @@ export async function GET(req) {
     .startOf("day");
   const endOfDayInBD = DateTime.now().setZone(BANGLADESH_TIMEZONE).endOf("day");
   // Calculate next 10 days in Bangladesh timezone
-  const next10DaysInBD = addDays(startOfDayInBD, 10);
-  const next10DaysInUTC = convertToUTC(next10DaysInBD);
+  const next10DaysInBD = DateTime.now()
+    .setZone(BANGLADESH_TIMEZONE)
+    .plus({ days: 10 })
+    .endOf("day");
 
   try {
     await connectDB();
@@ -64,7 +66,7 @@ export async function GET(req) {
           {
             $match: {
               nextExpiredDate: {
-                $lte: next10DaysInUTC,
+                $lte: next10DaysInBD,
                 $ne: null,
               },
             },
@@ -119,17 +121,20 @@ export async function GET(req) {
         ]),
       ]);
     // For monthly sales and purchases, also adjust for timezone
-    const startOfMonthInBD = startOfMonth(nowInBangladesh);
-    const startOfMonthInUTC = convertToUTC(startOfMonthInBD);
-    const endOfDayInBDForMonth = convertToUTC(endOfDayInBD);
+    const startOfMonthInBD = DateTime.now()
+      .setZone(BANGLADESH_TIMEZONE)
+      .startOf("month");
+    const endOfMonthInBd = DateTime.now()
+      .setZone(BANGLADESH_TIMEZONE)
+      .endOf("month");
 
     const [sales, purchases] = await Promise.all([
       OrderModel.aggregate([
         {
           $match: {
             orderDate: {
-              $gte: startOfMonthInUTC,
-              $lte: endOfDayInBDForMonth,
+              $gte: startOfMonthInBD,
+              $lte: endOfMonthInBd,
             },
           },
         },
@@ -151,8 +156,8 @@ export async function GET(req) {
         {
           $match: {
             createdAt: {
-              $gte: startOfMonthInUTC,
-              $lte: endOfDayInBDForMonth,
+              $gte: startOfMonthInBD,
+              $lte: endOfMonthInBd,
             },
           },
         },
@@ -200,7 +205,7 @@ export async function GET(req) {
           salesPurchaseData,
           lessStocks,
           lessExpired,
-          time: {nowInBangladesh, startOfDayInBD, endOfDayInBD},
+          time: { nowInBangladesh, startOfDayInBD, endOfDayInBD, startOfMonthInBD, endOfMonthInBd },
         },
       },
       { status: 200 }
