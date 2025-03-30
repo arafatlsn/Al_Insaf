@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import mongoose from "mongoose";
 
 export const OrderSchema = new mongoose.Schema(
@@ -64,7 +65,8 @@ export const OrderSchema = new mongoose.Schema(
     notes: { type: String },
     orderDate: {
       type: Date,
-      default: () => new Date(),
+      default: () =>
+        DateTime.now().setZone("Asia/Dhaka").plus({ hours: 6 }).toISO(),
     },
   },
   { timestamps: true }

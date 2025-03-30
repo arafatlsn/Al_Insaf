@@ -11,23 +11,19 @@ import {
   startOfDay,
   startOfMonth,
 } from "date-fns";
+import { DateTime } from "luxon";
 import { NextResponse } from "next/server";
 
 // Define the Bangladesh timezone
 const BANGLADESH_TIMEZONE = "Asia/Dhaka"; // UTC+6
 
 export async function GET(req) {
-  // Get the current time in Bangladesh timezone
-  const nowInBangladesh = convertToLocal(new Date());
-
+  const nowInBangladesh = DateTime.now().setZone(BANGLADESH_TIMEZONE).toISO();
   // Calculate the start and end of the day in Bangladesh timezone, then convert to UTC for MongoDB query
-  const startOfDayInBD = startOfDay(nowInBangladesh);
-  const endOfDayInBD = endOfDay(nowInBangladesh);
-
-  
-  // Convert to UTC for MongoDB query (MongoDB stores dates in UTC)
-  const startOfDayInUTC = convertToUTC(startOfDayInBD);
-  const endOfDayInUTC = convertToUTC(endOfDayInBD);
+  const startOfDayInBD = DateTime.now()
+    .setZone(BANGLADESH_TIMEZONE)
+    .startOf("day");
+  const endOfDayInBD = DateTime.now().setZone(BANGLADESH_TIMEZONE).endOf("day");
   // Calculate next 10 days in Bangladesh timezone
   const next10DaysInBD = addDays(startOfDayInBD, 10);
   const next10DaysInUTC = convertToUTC(next10DaysInBD);
@@ -90,8 +86,8 @@ export async function GET(req) {
           {
             $match: {
               orderDate: {
-                $gte: startOfDayInUTC,
-                $lte: endOfDayInUTC,
+                $gte: startOfDayInBD,
+                $lte: endOfDayInBD,
               },
             },
           },
@@ -109,8 +105,8 @@ export async function GET(req) {
           {
             $match: {
               createdAt: {
-                $gte: startOfDayInUTC,
-                $lte: endOfDayInUTC,
+                $gte: startOfDayInBD,
+                $lte: endOfDayInBD,
               },
             },
           },
@@ -122,11 +118,10 @@ export async function GET(req) {
           },
         ]),
       ]);
-
     // For monthly sales and purchases, also adjust for timezone
     const startOfMonthInBD = startOfMonth(nowInBangladesh);
     const startOfMonthInUTC = convertToUTC(startOfMonthInBD);
-    const endOfDayInUTCForMonth = convertToUTC(endOfDayInBD);
+    const endOfDayInBDForMonth = convertToUTC(endOfDayInBD);
 
     const [sales, purchases] = await Promise.all([
       OrderModel.aggregate([
@@ -134,7 +129,7 @@ export async function GET(req) {
           $match: {
             orderDate: {
               $gte: startOfMonthInUTC,
-              $lte: endOfDayInUTCForMonth,
+              $lte: endOfDayInBDForMonth,
             },
           },
         },
@@ -157,7 +152,7 @@ export async function GET(req) {
           $match: {
             createdAt: {
               $gte: startOfMonthInUTC,
-              $lte: endOfDayInUTCForMonth,
+              $lte: endOfDayInBDForMonth,
             },
           },
         },
@@ -205,6 +200,7 @@ export async function GET(req) {
           salesPurchaseData,
           lessStocks,
           lessExpired,
+          time: {nowInBangladesh, startOfDayInBD, endOfDayInBD},
         },
       },
       { status: 200 }

@@ -6,7 +6,7 @@ const LessExpired = ({ data }) => {
   return (
     <div className="p-[1rem] bg-background rounded-[10px]">
       <h3 className="text-[14px] text-black font-[500] mb-[10px]">
-        কম মেয়াদের প্রোডাক্ট
+        স্বল্প মেয়াদের প্রোডাক্ট
       </h3>
       <div className="flex flex-col gap-[10px]">
         {lessExpiredProducts?.map((el) => (
