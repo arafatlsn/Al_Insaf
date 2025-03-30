@@ -17,7 +17,10 @@ const BusinessSummary = ({ data }) => {
   const cash =
     data?.data?.getSales?.length > 0 && data?.data?.getSales[0]?.Cash;
   const due = data?.data?.getSales?.length > 0 && data?.data?.getSales[0]?.Due;
-  
+
+  const time = data?.data?.time;
+  console.log("time: ", time);
+
   return (
     <section className="grid grid-cols-3 bg-background p-[1rem] rounded-[10px] gap-[10px]">
       {/* total invest  */}

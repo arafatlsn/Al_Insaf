@@ -1,7 +1,7 @@
 export function convertToUTC(date) {
-  return new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return new Date(date - 6 * 60 * 60 * 1000);
 }
 
 export function convertToLocal(date) {
-  return new Date(date.getTime() + 6 * 60 * 60 * 1000);
+  return new Date(date + 6 * 60 * 60 * 1000);
 }
