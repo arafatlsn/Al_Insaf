@@ -65,8 +65,7 @@ export const OrderSchema = new mongoose.Schema(
     notes: { type: String },
     orderDate: {
       type: Date,
-      default: () =>
-        DateTime.now().setZone("Asia/Dhaka").plus({ hours: 6 }).toISO(),
+      default: () => DateTime.now().setZone("Asia/Dhaka").toISO(),
     },
   },
   { timestamps: true }
