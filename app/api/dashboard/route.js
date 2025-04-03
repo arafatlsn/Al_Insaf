@@ -1,15 +1,10 @@
 import OrderModel from "@/DB/Models/OrderModel";
 import Product from "@/DB/Models/ProductModel";
 import PurchaseHistory from "@/DB/Models/PurchaseHistoryModel";
-import { convertToLocal, convertToUTC } from "@/utils/convertTime";
 import { connectDB } from "@/utils/db";
 import {
-  addDays,
   eachDayOfInterval,
-  endOfDay,
   format,
-  startOfDay,
-  startOfMonth,
 } from "date-fns";
 import { DateTime } from "luxon";
 import { NextResponse } from "next/server";
@@ -24,6 +19,13 @@ export async function GET(req) {
     .setZone(BANGLADESH_TIMEZONE)
     .startOf("day");
   const endOfDayInBD = DateTime.now().setZone(BANGLADESH_TIMEZONE).endOf("day");
+  // For monthly sales and purchases, also adjust for timezone
+  const startOfMonthInBD = DateTime.now()
+    .setZone(BANGLADESH_TIMEZONE)
+    .startOf("month");
+  const endOfMonthInBd = DateTime.now()
+    .setZone(BANGLADESH_TIMEZONE)
+    .endOf("month");
   // Calculate next 10 days in Bangladesh timezone
   const next10DaysInBD = DateTime.now()
     .setZone(BANGLADESH_TIMEZONE)
@@ -120,13 +122,6 @@ export async function GET(req) {
           },
         ]),
       ]);
-    // For monthly sales and purchases, also adjust for timezone
-    const startOfMonthInBD = DateTime.now()
-      .setZone(BANGLADESH_TIMEZONE)
-      .startOf("month");
-    const endOfMonthInBd = DateTime.now()
-      .setZone(BANGLADESH_TIMEZONE)
-      .endOf("month");
 
     const [sales, purchases] = await Promise.all([
       OrderModel.aggregate([
@@ -205,7 +200,13 @@ export async function GET(req) {
           salesPurchaseData,
           lessStocks,
           lessExpired,
-          time: { nowInBangladesh, startOfDayInBD, endOfDayInBD, startOfMonthInBD, endOfMonthInBd },
+          time: {
+            nowInBangladesh,
+            startOfDayInBD,
+            endOfDayInBD,
+            startOfMonthInBD,
+            endOfMonthInBd,
+          },
         },
       },
       { status: 200 }

@@ -45,7 +45,7 @@ const ChartSalesPurchase = ({ data }) => {
           <Line
             type="monotone"
             dataKey="TotalPurchase"
-            stroke="#f4a261"
+            stroke="#00695C"
             activeDot={{ r: 8 }}
           />
           <Line type="monotone" dataKey="TotalSales" stroke="#3a7dff" />

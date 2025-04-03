@@ -3,6 +3,8 @@ import { addToCart } from "@/Redux/Slices/CartSlice";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import ShopIcon from "../Icons/ShopIcon";
+import OrderIcon from "../Icons/OrderIcon";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -68,15 +70,15 @@ const ProductCard = ({ product }) => {
         <div className="w-full flex flex-wrap gap-[6px] mt-[1rem] whitespace-nowrap">
           <button
             onClick={addCartHandler}
-            className="px-[1rem] button bg-primary"
+            className="w-fit text-[13px] font-[500] flex items-center justify-center gap-[6px] px-[1rem] button bg-[#3a7dff30] text-primary border-primary border-[1.5px] rounded-[1rem]"
           >
-            Add to Cart
+            <ShopIcon /> <span>Add to Cart</span>
           </button>
           <button
             onClick={placeOrder}
-            className="px-[1rem] button bg-secondary"
+            className="w-fit text-[13px] font-[500] flex items-center justify-center gap-[6px] px-[1rem] button bg-[#208b5930] text-success border-success border-[1.5px] rounded-[1rem]"
           >
-            Order
+            <OrderIcon /> <span>Order</span>
           </button>
         </div>
       </div>
