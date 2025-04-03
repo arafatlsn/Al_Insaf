@@ -1,7 +1,8 @@
 import CustomerModel from "@/DB/Models/CustomerModel";
 import OrderModel from "@/DB/Models/OrderModel";
 import { connectDB } from "@/utils/db";
-import { endOfDay, endOfWeek, startOfDay, startOfWeek, subDays, subMonths } from "date-fns";
+import { BANGLADESH_TIMEZONE } from "@/utils/url";
+import { DateTime } from "luxon";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
@@ -21,7 +22,7 @@ export async function GET(req) {
         ],
       }).select("_id");
       const customerIds = customers?.map((customer) => customer._id);
-      
+
       query.customer = { $in: customerIds };
     }
     // Filtering logic based on query parameters
@@ -29,23 +30,26 @@ export async function GET(req) {
       query.paymentStatus = "dued";
     } else if (filter === "today") {
       query.orderDate = {
-        $gte: startOfDay(new Date()),
-        $lte: endOfDay(new Date()),
+        $gte: DateTime.now().setZone(BANGLADESH_TIMEZONE).startOf("day"),
+        $lte: DateTime.now().setZone(BANGLADESH_TIMEZONE).endOf("day"),
       };
     } else if (filter === "7d") {
       query.orderDate = {
-        $gte: startOfWeek(new Date()),
-        $lte: endOfWeek(new Date()),
+        $gte: DateTime.now().setZone(BANGLADESH_TIMEZONE).startOf("week"),
+        $lte: DateTime.now().setZone(BANGLADESH_TIMEZONE).endOf("day"),
       };
     } else if (filter === "30d") {
       query.orderDate = {
-        $gte: startOfDay(subDays(new Date(), 30)),
-        $lte: endOfDay(new Date()),
+        $gte: DateTime.now().setZone(BANGLADESH_TIMEZONE).startOf("month"),
+        $lte: DateTime.now().setZone(BANGLADESH_TIMEZONE).endOf("day"),
       };
     } else if (filter === "90d") {
       query.orderDate = {
-        $gte: startOfDay(subMonths(new Date(), 3)),
-        $lte: endOfDay(new Date()),
+        $gte: DateTime.now()
+          .setZone(BANGLADESH_TIMEZONE)
+          .startOf("month")
+          .minus({ month: 3 }),
+        $lte: DateTime.now().setZone(BANGLADESH_TIMEZONE).endOf("day"),
       };
     }
     const allOrders = await OrderModel.find(query).populate("customer");
