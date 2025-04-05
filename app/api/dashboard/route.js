@@ -2,10 +2,7 @@ import OrderModel from "@/DB/Models/OrderModel";
 import Product from "@/DB/Models/ProductModel";
 import PurchaseHistory from "@/DB/Models/PurchaseHistoryModel";
 import { connectDB } from "@/utils/db";
-import {
-  eachDayOfInterval,
-  format,
-} from "date-fns";
+import { eachDayOfInterval, format } from "date-fns";
 import { DateTime } from "luxon";
 import { NextResponse } from "next/server";
 
@@ -172,11 +169,21 @@ export async function GET(req) {
       ]),
     ]);
 
-    const start = startOfMonthInBD;
-    const end = endOfDayInBD;
-    const allDates = eachDayOfInterval({ start, end }).map((date) =>
-      format(date, "yyyy-MM-dd")
-    );
+    // Get the current date
+    const now = DateTime.local();
+    // Get the year and month from the current date
+    const year = now.year;
+    const month = now.month;
+    const today = now.day;
+    // Get the number of days in the current month
+    const daysInMonth = now.daysInMonth;
+    // Array to hold all dates
+    const dates = [];
+
+    // Loop through each day and add it to the array
+    for (let day = 1; day <= today; day++) {
+      dates.push(DateTime.fromObject({ year, month, day }).toISODate());
+    }
 
     const salesMap = Object.fromEntries(
       sales?.map((s) => [s._id, s.totalSales])
@@ -185,7 +192,7 @@ export async function GET(req) {
       purchases?.map((p) => [p._id, p.totalPurchase])
     );
 
-    const salesPurchaseData = allDates?.map((date) => ({
+    const salesPurchaseData = dates?.map((date) => ({
       date: `${date?.split("-")[2]}-${date?.split("-")[1]}`,
       TotalSales: salesMap[date] || 0,
       TotalPurchase: purchasesMap[date] || 0,
