@@ -3,6 +3,7 @@ import { useFetchProductsQuery } from "@/Redux/APIs/ProductApi";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import TableAllProducts from "../Tables/TableAllProducts";
+import { updateOrderFilter } from "@/Redux/Slices/FilterSlice";
 
 const AllProductPage = () => {
   const dispatch = useDispatch();
@@ -26,13 +27,13 @@ const AllProductPage = () => {
         newObj["filter"] = filterProducts[property];
       }
     }
-    dispatch(updateOrderFilter({ actionFor: "filterProducts", value: newObj }));
+    setFilterProducts(newObj);
   };
 
   return (
     <div>
       <div className="flex items-center gap-[2rem] py-[1rem]">
-        <h3 className="mdFont font-bold">Shop</h3>
+        <h3 className="mdFont font-bold">All Products</h3>
         <div className="h-[40px]">
           <input
             ref={searchRef}

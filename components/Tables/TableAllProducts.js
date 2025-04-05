@@ -15,6 +15,7 @@ const TableAllProducts = ({ data }) => {
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
+          <TableHead>SKU</TableHead>
           <TableHead className="text-left px-0">Purchases History</TableHead>
           <TableHead>Stock</TableHead>
           <TableHead>Sold</TableHead>
@@ -27,6 +28,7 @@ const TableAllProducts = ({ data }) => {
         {data?.map((el) => (
           <TableRow className="odd:bg-background" key={el?._id}>
             <TableCell className="align-top">{el?.name}</TableCell>
+            <TableCell className="align-top">{el?.sku}</TableCell>
             <TableCell className="align-top p-0">
               <Table className="p-0 m-0">
                 <TableHeader className="p-0">
