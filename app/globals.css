@@ -6,7 +6,7 @@
   --background: #ffffff;
   --foreground: #f8f8fa;
   --primary: #3a7dff;
-  --secondary: #00695C;
+  --secondary: #00695c;
   --lightText: #23262d;
   --success: #208b59;
   --failed: #ff3333;
@@ -47,7 +47,7 @@ body {
   }
   /* SHADOW */
   .cShadow {
-    @apply shadow-[0px_4px_6px_0px_rgba(71,_85,_105,_0.08)];
+    @apply shadow-[0px_2px_4px_0px_rgba(149,_157,_165,_0.2)];
   }
 }
 
