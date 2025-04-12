@@ -34,9 +34,9 @@ const ShopPage = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-[2rem] py-[1rem]">
+        <div className="w-full flex flex-col md:flex-row justify-center items-center gap-[1rem] md:gap-[2rem] py-[1rem]">
           <h3 className="mdFont font-bold">Shop</h3>
-          <div className="h-[40px]">
+          <div className="w-full flex items-center h-[40px]">
             <input
               ref={searchRef}
               onChange={(e) => {
@@ -45,7 +45,7 @@ const ShopPage = () => {
                 }
               }}
               onKeyUp={addingSearchText}
-              className="h-full w-[300px] border rounded-l-[6px] focus:outline-none pl-[10px]"
+              className="h-full w-full md:w-[300px] border rounded-l-[6px] focus:outline-none pl-[10px]"
               type="text"
               placeholder="Name, Tag, Category"
             />
@@ -57,6 +57,7 @@ const ShopPage = () => {
             </button>
           </div>
         </div>
+
         <div
           className="fixed top-[1rem] right-[1rem]"
           style={{ right: "calc((100% - 1280px) / 2 + 1rem)" }}
@@ -74,6 +75,9 @@ const ShopPage = () => {
           </button>
         </div>
       </div>
+      <h6 className="text-[12px] font-[500] text-lightText mb-[.5rem]">
+        Result: {products?.length}
+      </h6>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[1rem] pb-[10rem]">
         {products?.map((product) => (
           <ProductCard key={product?._id} product={product} />
