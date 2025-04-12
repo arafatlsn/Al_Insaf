@@ -45,14 +45,13 @@ export async function POST(req) {
 
   let totalStock = 0;
   let invest = 0;
-  let minExpiredDate = purchase[0]?.expired;
 
   // checking all required fields
   if (
     !name ||
     !category ||
     !price ||
-    !purchase?.length ||
+    !purchase ||
     !supplier ||
     !sku ||
     !unitType ||
@@ -66,31 +65,9 @@ export async function POST(req) {
 
   const session = await mongoose.startSession();
 
-  for (let product of purchase) {
-    totalStock = totalStock + product?.stock;
-    invest =
-      invest + (product?.buyingCost + product?.serviceCost) * product?.stock;
-    if (
-      new Date(product?.expired).getTime() < new Date(minExpiredDate).getTime
-    ) {
-      minExpiredDate = product?.expired;
-    }
-  }
-
-  const productObj = {
-    name,
-    description,
-    category,
-    price,
-    purchase,
-    supplier,
-    sku,
-    unitType,
-    images: [],
-    invest,
-    totalStock,
-    nextExpiredDate: minExpiredDate,
-  };
+  totalStock = totalStock + purchase?.stock;
+  invest =
+    invest + (purchase?.buyingCost + purchase?.serviceCost) * purchase?.stock;
   try {
     // connect db
     await connectDB();
@@ -99,8 +76,21 @@ export async function POST(req) {
     if (supplier.toLowerCase() === "others") {
       const newSupplierRes = await Supplier.create([newSupplier], { session });
       // now replace the supplier with new supplier _id
-      productObj["supplier"] = newSupplierRes[0]?._id;
+      purchase["supplier"] = newSupplierRes[0]?._id;
     }
+    const productObj = {
+      name,
+      description,
+      category,
+      price,
+      purchase,
+      sku,
+      unitType,
+      images: [],
+      invest,
+      totalStock,
+      nextExpiredDate: purchase?.expired,
+    };
     // 2️⃣ create the product
     const newProduct = await Product.create([productObj], { session });
     const productId = newProduct[0]._id;
@@ -153,12 +143,8 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("error:", error?.message);
     await session.abortTransaction();
     session.endSession();
-    return NextResponse.json(
-      { message: "something went wrong" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: error?.message }, { status: 500 });
   }
 }

@@ -22,15 +22,15 @@ const BusinessSummary = ({ data }) => {
   console.log("time: ", time);
 
   return (
-    <section className="grid grid-cols-3 bg-background p-[1rem] rounded-[10px] gap-[10px]">
+    <section className="grid grid-cols-2 md:grid-cols-3 bg-background p-[.5rem] md:p-[.8rem] lg:p-[1rem] rounded-[10px] gap-[10px]">
       {/* total invest  */}
       <div className="w-full p-[.5rem] rounded-[6px] bg-foreground">
         <div className="flex items-center gap-[6px] text-lightText">
           <InvestIcon />
-          <span className="font-[500]">সব পণ্যের দাম</span>
+          <span className="text-[12px] md:text-[14px] lg:text-[1rem] font-[500]">সব পণ্যের দাম</span>
         </div>
         <div>
-          <h1 className="text-[1.5rem] text-black font-bold mt-[6px]">
+          <h1 className="text-[1.2rem] lg:text-[1.5rem] text-black font-bold mt-[6px]">
             {bdFormatNumber(totalInvest)}
           </h1>
         </div>
@@ -39,10 +39,10 @@ const BusinessSummary = ({ data }) => {
       <div className="w-full p-[.5rem] rounded-[6px] bg-foreground">
         <div className="flex items-center gap-[6px] text-lightText">
           <ExpenseIcon />
-          <span className="font-[500]">আজকের খরচ</span>
+          <span className="text-[12px] md:text-[14px] lg:text-[1rem] font-[500]">আজকের খরচ</span>
         </div>
         <div>
-          <h1 className="text-[1.5rem] text-black font-bold mt-[6px]">
+          <h1 className="text-[1.2rem] lg:text-[1.5rem] text-black font-bold mt-[6px]">
             {bdFormatNumber(purchases)}
           </h1>
         </div>
@@ -51,10 +51,10 @@ const BusinessSummary = ({ data }) => {
       <div className="w-full p-[.5rem] rounded-[6px] bg-foreground">
         <div className="flex items-center gap-[6px] text-lightText">
           <DolorIcon />
-          <span className="font-[500]">আজকের বিক্রি</span>
+          <span className="text-[12px] md:text-[14px] lg:text-[1rem] font-[500]">আজকের বিক্রি</span>
         </div>
         <div>
-          <h1 className="text-[1.5rem] text-black font-bold mt-[6px]">
+          <h1 className="text-[1.2rem] lg:text-[1.5rem] text-black font-bold mt-[6px]">
             {bdFormatNumber(sales)}
           </h1>
         </div>
@@ -63,10 +63,10 @@ const BusinessSummary = ({ data }) => {
       <div className="w-full p-[.5rem] rounded-[6px] bg-foreground">
         <div className="flex items-center gap-[6px] text-lightText">
           <DolorIcon />
-          <span className="font-[500]">আজকের মুনাফা</span>
+          <span className="text-[12px] md:text-[14px] lg:text-[1rem] font-[500]">আজকের মুনাফা</span>
         </div>
         <div>
-          <h1 className="text-[1.5rem] text-success font-bold mt-[6px]">
+          <h1 className="text-[1.2rem] lg:text-[1.5rem] text-success font-bold mt-[6px]">
             {bdFormatNumber(profit)}
           </h1>
         </div>
@@ -75,10 +75,10 @@ const BusinessSummary = ({ data }) => {
       <div className="w-full p-[.5rem] rounded-[6px] bg-foreground">
         <div className="flex items-center gap-[6px] text-lightText">
           <DolorIcon />
-          <span className="font-[500]">নগদ</span>
+          <span className="text-[12px] md:text-[14px] lg:text-[1rem] font-[500]">নগদ বিক্রি</span>
         </div>
         <div>
-          <h1 className="text-[1.5rem] text-success font-bold mt-[6px]">
+          <h1 className="text-[1.2rem] lg:text-[1.5rem] text-success font-bold mt-[6px]">
             {bdFormatNumber(cash)}
           </h1>
         </div>
@@ -87,10 +87,10 @@ const BusinessSummary = ({ data }) => {
       <div className="w-full p-[.5rem] rounded-[6px] bg-foreground">
         <div className="flex items-center gap-[6px] text-lightText">
           <DolorIcon />
-          <span className="font-[500]">বাকি</span>
+          <span className="text-[12px] md:text-[14px] lg:text-[1rem] font-[500]">বাকি বিক্রি</span>
         </div>
         <div>
-          <h1 className="text-[1.5rem] text-failed font-bold mt-[6px]">
+          <h1 className="text-[1.2rem] lg:text-[1.5rem] text-failed font-bold mt-[6px]">
             {bdFormatNumber(due)}
           </h1>
         </div>

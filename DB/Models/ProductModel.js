@@ -41,6 +41,7 @@ const ProductSchema = new mongoose.Schema(
               return isNaN(parsedDate.getTime()) ? null : parsedDate;
             },
           },
+          supplier: { type: mongoose.Schema.Types.ObjectId, ref: "Supplier" },
           profit: { type: Number, min: 0, default: 0 },
         },
       ],
@@ -65,10 +66,6 @@ const ProductSchema = new mongoose.Schema(
       min: 10,
       default: 0,
     },
-    supplier: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Supplier",
-    },
     sku: {
       type: String,
       required: true,
@@ -76,7 +73,16 @@ const ProductSchema = new mongoose.Schema(
     unitType: {
       type: String,
       required: true,
-      enum: ["kg", "piece", "pack", "ml", "litre", "bottle", "gallon", "others"],
+      enum: [
+        "kg",
+        "piece",
+        "pack",
+        "ml",
+        "litre",
+        "bottle",
+        "gallon",
+        "others",
+      ],
     },
     nextExpiredDate: {
       type: Date || null,

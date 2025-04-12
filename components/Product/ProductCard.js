@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import ShopIcon from "../Icons/ShopIcon";
 import OrderIcon from "../Icons/OrderIcon";
+import { bdFormatNumber } from "@/utils/bdFormatNumber";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -63,10 +64,14 @@ const ProductCard = ({ product }) => {
             alt="bdt"
           />
           <h3 className="mdFont">
-            {product?.price} <span className="text-[14px]">{" per "}</span>{" "}
+            {bdFormatNumber(product?.price)}{" "}
+            <span className="text-[14px]">{" per "}</span>{" "}
             <span className="text-[14px] uppercase">{product?.unitType}</span>
           </h3>
         </div>
+        <h6 className="text-[14px] font-semibold">
+          Stock: <span>{product?.totalStock}</span>
+        </h6>
         <div className="w-full flex flex-wrap gap-[6px] mt-[1rem] whitespace-nowrap">
           <button
             onClick={addCartHandler}

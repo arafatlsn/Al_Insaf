@@ -16,29 +16,7 @@ const SupplierInfoFileds = () => {
   const dispatch = useDispatch();
   const [createProudct] = useCreateProductMutation();
   const { data } = useFetchSuppliersQuery();
-  const allSuppliers = data?.data;
-  // redux state
-  const {
-    name,
-    category,
-    price,
-    images,
-    purchase,
-    supplier,
-    newSupplier,
-    sku,
-    unitType,
-  } = useSelector((state) => state.product_slice);
-  // dispatch function
-  const dispatcher = (objKey, value) => {
-    dispatch(updateProductSlice({ [objKey]: value }));
-  };
-  // dispatcher for new supplier
-  const dispatcherSupplier = (objKey, value) => {
-    const obj = { ...newSupplier };
-    obj[objKey] = value;
-    dispatch(updateProductSlice({ newSupplier: obj }));
-  };
+  
 
   // create product handler function
   const createHandler = async () => {
