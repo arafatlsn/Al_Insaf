@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useResponsive = () => {
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);

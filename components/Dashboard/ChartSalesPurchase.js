@@ -1,5 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+const useResponsive = dynamic(
+  () => import("../Custom_Hooks/useResponsive"),
+  { ssr: false }
+);
+import React from "react";
 import {
   LineChart,
   Line,
@@ -10,7 +15,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import useResponsive from "../Custom_Hooks/useResponsive";
 
 const ChartSalesPurchase = ({ data }) => {
   const { isMobile, isTablet, width } = useResponsive();

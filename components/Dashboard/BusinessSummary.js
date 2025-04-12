@@ -19,7 +19,6 @@ const BusinessSummary = ({ data }) => {
   const due = data?.data?.getSales?.length > 0 && data?.data?.getSales[0]?.Due;
 
   const time = data?.data?.time;
-  console.log("time: ", time);
 
   return (
     <section className="grid grid-cols-2 md:grid-cols-3 bg-background p-[.5rem] md:p-[.8rem] lg:p-[1rem] rounded-[10px] gap-[10px]">
