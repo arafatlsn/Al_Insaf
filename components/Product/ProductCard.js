@@ -28,9 +28,9 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center lg:flex-row gap-[.3rem] bg-background">
+    <div className="flex flex-col justify-center items-center lg:flex-row gap-[.3rem] bg-background rounded-[.3rem] cShadow">
       {/* image side  */}
-      <div className="min-w-[80px] lg:min-w-[120px] xl:min-w-[150px] 2xl:min-w-[200px] lg:border-r-[1px]">
+      <div className="min-w-[120px] max-w-[120px] lg:min-w-[120px] xl:min-w-[150px] 2xl:min-w-[200px] max-lg:py-[2rem] lg:border-r-[1px]">
         {product?.images?.length > 0 ? (
           <Image
             src={product?.images[0]}

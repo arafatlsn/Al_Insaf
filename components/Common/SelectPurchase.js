@@ -19,7 +19,7 @@ const SelectPurchase = ({ options, action, id, size = "large" }) => {
       <SelectGroup>
         <SelectTrigger
           className={`w-full ${
-            size === "large" ? "h-[40px]" : "h-[30px]"
+            size === "large" ? "h-[40px]" : "h-[25px] p-[3px] text-[12px]"
           } border-primary focus:outline-none focus:ring-0 capitalize`}
         >
           <SelectValue placeholder="Select Your Choice" />
@@ -27,15 +27,13 @@ const SelectPurchase = ({ options, action, id, size = "large" }) => {
         <SelectContent className="bg-foreground">
           {options?.map((el, index) => (
             <SelectItem value={index} key={el?._id}>
-              <div>
+              <div className="text-[9px] md:text-[12px]">
                 <span className="font-[500]">cost: </span>
                 <span>{`${el?.buyingCost + el?.serviceCost} - `}</span>
                 <span className="font-[500]">sell: </span>
                 <span>{`${el?.sellingPrice} - `}</span>
                 <span className="font-[500]">stock: </span>
-                <span>{`${el?.stock} - `}</span>
-                <span className="font-[500]">expired: </span>
-                <span>{`${toDateStringFn(el?.expired)}`}</span>
+                <span>{`${el?.stock}`}</span>
               </div>
             </SelectItem>
           ))}

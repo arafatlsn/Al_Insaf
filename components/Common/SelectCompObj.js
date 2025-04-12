@@ -28,8 +28,8 @@ const SelectCompObj = ({
           {label} {required && <span className="text-red-500">*</span>}{" "}
         </SelectLabel>
         <SelectTrigger
-          className={`w-full ${
-            size === "large" ? "h-[40px]" : "h-[30px]"
+          className={`w-full px-[6px] text-[12px] lg:text-[14px] ${
+            size === "large" ? "h-[30px] lg:h-[40px]" : "h-[30px]"
           } border-primary focus:outline-none focus:ring-0 capitalize`}
         >
           <SelectValue placeholder="Select Your Choice" />
