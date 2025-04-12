@@ -10,7 +10,7 @@ const InvestIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="lucide lucide-worm"
+      className="size-5"
     >
       <path d="m19 12-1.5 3" />
       <path d="M19.63 18.81 22 20" />
