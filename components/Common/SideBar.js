@@ -16,10 +16,10 @@ const SideBar = () => {
         alt="logo"
       />
       <ul className="w-full">
-        {sidebarOptions.map((el) => (
+        {sidebarOptions?.map((el) => (
           <Link key={el?.id} href={el?.route}>
             <li
-              className={`w-full uppercase font-semibold flex items-center gap-[6px] px-[10px] h-[40px] transition-all ${
+              className={`text-[12px] lg:text-[14px] xl:text-[1rem] w-full uppercase font-semibold flex items-center gap-[6px] px-[10px] h-[40px] transition-all ${
                 pathname === el?.route || (pathname === "" && el?.route === "/")
                   ? "bg-primary text-white"
                   : ""

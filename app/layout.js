@@ -1,9 +1,9 @@
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
-import NavBar from "@/components/Common/NavBar";
 import SideBar from "@/components/Common/SideBar";
 import IndexWrapper from "@/Providers/IndexWrapper";
+import NavBar from "@/components/Common/NavBar";
 
 export const metadata = {
   title: "Create Next App",
@@ -13,14 +13,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="">
-        <div className="max-w-[1280px] mx-auto w-full flex">
-          <div className="min-w-[220px] max-w-[220px] h-screen border-r-[1px] border">
+      <body>
+        <div className="w-full max-w-[1280px] mx-auto flex relative">
+          <div className="hidden md:block md:min-w-[180px] md:max-w-[180px] xl:min-w-[220px] xl:max-w-[220px] h-screen border-r-[1px] border sticky top-0">
             <SideBar />
           </div>
-          <div className="grow">
-            {/* <NavBar /> */}
-            <div className="min-h-screen smXYPadding bg-foreground">
+          <div className="grow relative">
+            <NavBar />
+            <div className="w-full min-h-screen smXYPadding bg-foreground">
               <IndexWrapper>{children}</IndexWrapper>
             </div>
           </div>

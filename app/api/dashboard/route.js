@@ -65,6 +65,7 @@ export async function GET(req) {
           {
             $match: {
               nextExpiredDate: {
+                $gte: nowInBangladesh,
                 $lte: next10DaysInBD,
                 $ne: null,
               },

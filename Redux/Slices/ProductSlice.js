@@ -8,7 +8,6 @@ const initialState = {
   purchase: [],
   images: [],
   supplier: "",
-  newSupplier: { name: "", contact: "", address: "" },
   sku: "",
   unitType: "",
   expiryDate: "",

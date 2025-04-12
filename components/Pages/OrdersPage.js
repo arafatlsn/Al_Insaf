@@ -42,8 +42,8 @@ const OrdersPage = () => {
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between py-[1rem]">
+    <div className="min-w-full">
+      <div className="w-full flex items-center justify-between py-[1rem]">
         <div className="flex items-center gap-[2rem]">
           <h3 className="mdFont font-bold">Order History</h3>
           <div className="h-[40px]">
@@ -75,7 +75,7 @@ const OrdersPage = () => {
           />
         </div>
       </div>
-      <div className="mdXYPadding rounded-[10px] bg-background">
+      <div className="w-full mdXYPadding rounded-[10px] bg-background">
         <TableOrder data={data?.data} />
       </div>
     </div>

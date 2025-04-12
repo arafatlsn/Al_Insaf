@@ -18,6 +18,7 @@ const SelectCompObj = ({
 }) => {
   return (
     <Select
+      name={actionFor}
       onValueChange={(e) => {
         action(actionFor, e);
       }}

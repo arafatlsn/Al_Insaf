@@ -10,7 +10,7 @@ import {
 
 const TableOrder = ({ data }) => {
   return (
-    <Table>
+    <Table className="w-full">
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
