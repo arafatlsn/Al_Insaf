@@ -33,9 +33,9 @@ const ProductImages = () => {
   return (
     <section className="bg-background smXYPadding rounded-[10px]">
       <div>
-        <h3 className="mdFont mb-[1rem]">Product Images</h3>
+        <h3 className="mdFont font-semibold mb-[1rem]">Product Images</h3>
       </div>
-      <div id="product_images" className="aspect-square">
+      <div id="product_images" className="md:aspect-square">
         {productImages?.map((el) => (
           <div key={el?.id}>
             <label htmlFor="product_image">
@@ -43,7 +43,7 @@ const ProductImages = () => {
                 src={el?.base64}
                 width={400}
                 height={400}
-                className="w-full h-full object-contain border"
+                className="w-fit h-fit md:w-full md:h-full object-contain border"
                 alt="default-image"
               />
             </label>
@@ -65,7 +65,7 @@ const ProductImages = () => {
               src="/Assets/Images/image-icon-trendy-flat-style-600nw-643080895.webp"
               width={400}
               height={400}
-              className="w-full h-full object-contain border"
+              className="w-fit h-fit md:w-full md:h-full object-contain border"
               alt="default-image"
             />
           </label>
