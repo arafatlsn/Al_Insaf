@@ -43,10 +43,10 @@ const OrdersPage = () => {
 
   return (
     <div className="min-w-full">
-      <div className="w-full flex items-center justify-between py-[1rem]">
-        <div className="flex items-center gap-[2rem]">
-          <h3 className="mdFont font-bold">Order History</h3>
-          <div className="h-[40px]">
+      <div className="w-full flex flex-col md:flex-row items-center justify-between max-md:gap-[.5rem] max-lg:gap-[2rem] py-[1rem]">
+        <div className=" max-lg:w-full flex flex-col lg:flex-row max-md:items-start items-center md:items-start max-lg:gap-[.3rem] lg:gap-[2rem]">
+          <h3 className="text-[14px] lg:text-[1rem] xl:text-[18px] font-semibold whitespace-nowrap">Order History</h3>
+          <div className="flex w-full h-[33px] md:h-[35px] lg:h-[40px] text-[12px] md:text-[14px] lg:text-[15px]">
             <input
               ref={searchRef}
               onChange={(e) => {
@@ -55,7 +55,7 @@ const OrdersPage = () => {
                 }
               }}
               onKeyUp={addingSearchText}
-              className="h-full w-[300px] border rounded-l-[6px] focus:outline-none pl-[10px]"
+              className="lg:w-[300px] h-full grow border rounded-l-[6px] focus:outline-none pl-[6px] md:pl-[8px] lg:pl-[10px]"
               type="text"
               placeholder="Name, Phone, Address"
             />
@@ -67,7 +67,7 @@ const OrdersPage = () => {
             </button>
           </div>
         </div>
-        <div className="w-[250px]">
+        <div className="self-end w-[90px] md:w-[150px]">
           <SelectFilter
             action={filterOrderFn}
             actionFor={"filterOrders"}

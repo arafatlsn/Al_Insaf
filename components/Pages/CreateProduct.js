@@ -92,21 +92,21 @@ const CreateProduct = () => {
     }
   };
   return (
-    <div>
+    <div className="max-md:pb-[3rem]">
       <div className="py-[1rem]">
         <h3 className="mdFont font-bold">Create Product</h3>
       </div>
       <form onSubmit={createHandler}>
-        <div className="grid grid-cols-7 gap-[1rem]">
-          <div className="col-span-5 flex flex-col gap-[1.5rem]">
+        <div className="grid grid-cols-1 md:grid-cols-7 gap-[1rem]">
+          <div className="md:col-span-5 flex flex-col gap-[1.5rem]">
             <BasicInfoFields />
             {/* <SupplierInfoFileds /> */}
           </div>
-          <div className="col-span-2">
+          <div className="md:col-span-2">
             <ProductImages />
           </div>
         </div>
-        <div className="w-[200px]">
+        <div className="w-full md:w-[200px]">
           <Button type={"submit"} text="Create Product" />
         </div>
       </form>

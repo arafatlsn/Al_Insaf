@@ -17,8 +17,8 @@ const SelectFilter = ({ options, action, actionFor, size = "large" }) => {
     >
       <SelectGroup>
         <SelectTrigger
-          className={`w-full ${
-            size === "large" ? "h-[40px]" : "h-[30px]"
+          className={`w-full px-[.3rem] ${
+            size === "large" ? "h-[28px] md:h-[30px] lg:h-[34px] xl:h-[40px] text-[12px] md:text-[14px]" : "h-[30px] text-[12px]"
           } border-primary focus:outline-none focus:ring-0 capitalize`}
         >
           <SelectValue placeholder="Filter Order" />
