@@ -34,7 +34,7 @@ export function DrawerDemo() {
         <ul className="flex flex-col w-full mt-[1rem]">
           {sidebarOptions?.map((el) => (
             <Link key={el?.id} href={el?.route}>
-              <DrawerClose className="w-full">
+              <DrawerClose className="w-full bg-background">
                 <li
                   className={` text-[12px] lg:text-[14px] xl:text-[1rem] w-full uppercase font-semibold flex items-center gap-[6px] px-[10px] h-[40px] transition-all ${
                     pathname === el?.route ||

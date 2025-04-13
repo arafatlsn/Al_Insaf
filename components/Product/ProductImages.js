@@ -35,7 +35,7 @@ const ProductImages = () => {
       <div>
         <h3 className="mdFont font-semibold mb-[1rem]">Product Images</h3>
       </div>
-      <div id="product_images" className="lg:aspect-square">
+      <div id="product_images" className="min-lg:aspect-square">
         {productImages?.map((el) => (
           <div key={el?.id}>
             <label htmlFor="product_image">
