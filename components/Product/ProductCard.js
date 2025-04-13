@@ -50,10 +50,10 @@ const ProductCard = ({ product }) => {
         )}
       </div>
       <div className="self-start flex flex-col items-start smXYPadding grow overflow-hidden">
-        <h6 className="text-[14px] font-[500]">{product?.sku}</h6>
+        <h6 className="text-[12px] lg:text-[14px] font-[500]">{product?.sku}</h6>
         <h2
           title={product?.name}
-          className="mdFont font-semibold text-secondary truncate"
+          className="text-[1rem] lg:text-[20px] font-semibold text-secondary"
         >
           {product?.name}
         </h2>
@@ -65,7 +65,7 @@ const ProductCard = ({ product }) => {
             height={isMobile ? 20 : isTablet ? 25 : 30}
             alt="bdt"
           />
-          <h3 className="mdFont">
+          <h3 className="mdFont font-semibold">
             {bdFormatNumber(product?.price)}{" "}
             <span className="text-[14px]">{" per "}</span>{" "}
             <span className="text-[14px] uppercase">{product?.unitType}</span>
