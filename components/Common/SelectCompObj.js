@@ -24,7 +24,7 @@ const SelectCompObj = ({
       }}
     >
       <SelectGroup>
-        <SelectLabel className="capitalize mb-[4px]">
+        <SelectLabel className="capitalize mb-[2px] text-[12px] md:text-[13px] xl:text-[14px]">
           {label} {required && <span className="text-red-500">*</span>}{" "}
         </SelectLabel>
         <SelectTrigger

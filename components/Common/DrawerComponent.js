@@ -20,12 +20,12 @@ export function DrawerDemo() {
 
   return (
     <Drawer direction="right">
-      <DrawerTrigger asChild>
+      <DrawerTrigger className="bg-background" asChild>
         <button className="text-lightText">
           <ThreeDotsIcon />
         </button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="bg-background">
         <DrawerHeader>
           <DrawerTitle>
             <Image src={"/logo.jpg"} width={60} height={60} alt="logo" />
