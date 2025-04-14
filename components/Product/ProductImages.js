@@ -3,6 +3,7 @@ import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
 import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ProductImages = () => {
   const dispatch = useDispatch();
@@ -26,9 +27,12 @@ const ProductImages = () => {
             ],
           })
         );
+        toast.success("Added image!");
       };
-      reader.onerror = (error) =>
+      reader.onerror = (error) => {
         console.log("failed to convert the image base64:", error);
+        toast.error("Failed");
+      };
     }, 100);
   };
 
@@ -44,7 +48,7 @@ const ProductImages = () => {
         {productImages?.map((el) => (
           <div key={el?.id}>
             <label htmlFor="product_image">
-              <img
+              <Image
                 src={el?.base64}
                 width={400}
                 height={400}
