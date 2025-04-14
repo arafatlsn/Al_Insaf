@@ -27,11 +27,9 @@ const ProductImages = () => {
             ],
           })
         );
-        toast.success("Added image!");
       };
       reader.onerror = (error) => {
         console.log("failed to convert the image base64:", error);
-        toast.error("Failed");
       };
     }, 100);
   };
@@ -81,6 +79,7 @@ const ProductImages = () => {
           <input
             onChange={(e) => {
               onChangeImage(e.target.files[0]);
+              toast.success("CHANGED!")
               e.target.value = null;
             }}
             className="hidden"
