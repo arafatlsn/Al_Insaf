@@ -15,38 +15,28 @@ const ProductImages = () => {
       toast.error("No file selected!");
       return;
     }
-
-    toast.success("ONCHANGE FUNCTION CALLED!");
     const reader = new FileReader();
     reader.readAsDataURL(imageFile);
 
     reader.onload = () => {
-      toast.success("DISPATCHING THE RESULT");
-      try {
-        dispatch(
-          updateProductSlice({
-            images: [
-              ...productImages,
-              {
-                id: generateRandomId(),
-                file: imageFile,
-                base64: reader.result,
-              },
-            ],
-          })
-        );
-        toast.success("DISPATCHED");
-        inputElement.value = null;
-      } catch (error) {
-        console.error("Dispatch failed:", error);
-        toast.error("DISPATCH FAILED: " + error.message);
-      }
-      // Reset the input after processing
+      dispatch(
+        updateProductSlice({
+          images: [
+            ...productImages,
+            {
+              id: generateRandomId(),
+              file: imageFile,
+              base64: reader.result,
+            },
+          ],
+        })
+      );
+      inputElement.value = null;
     };
 
     reader.onerror = (error) => {
       console.error("Failed to convert the image to base64:", error);
-      toast.error("FAILED TO ADD IMAGE");
+      toast.error("FAILED TO CONVERT BASE64: ", error?.message);
       inputElement.value = null;
     };
   };
@@ -67,7 +57,7 @@ const ProductImages = () => {
                 src={el?.base64}
                 width={400}
                 height={400}
-                className="aspect-square w-full h-auto object-contain border"
+                className="aspect-square w-full h-auto object-contain border overflow-hidden"
                 alt="product-image"
               />
             </label>
@@ -86,7 +76,7 @@ const ProductImages = () => {
               src="/Assets/Images/image-icon-trendy-flat-style-600nw-643080895.webp"
               width={400}
               height={400}
-              className="aspect-square w-full h-auto object-contain border"
+              className="aspect-square w-full h-auto object-contain border overflow-hidden"
               alt="default-image"
             />
           </label>
