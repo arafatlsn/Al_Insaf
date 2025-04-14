@@ -10,24 +10,26 @@ const ProductImages = () => {
   const { images: productImages } = useSelector((state) => state.product_slice);
 
   const onChangeImage = async (imageFile) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(imageFile);
-    reader.onload = () => {
-      dispatch(
-        updateProductSlice({
-          images: [
-            ...productImages,
-            {
-              id: crypto.randomUUID(),
-              file: imageFile,
-              base64: reader.result,
-            },
-          ],
-        })
-      );
-    };
-    reader.onerror = (error) =>
-      console.log("failed to convert the image base64:", error);
+    setTimeout(() => {
+      const reader = new FileReader();
+      reader.readAsDataURL(imageFile);
+      reader.onload = () => {
+        dispatch(
+          updateProductSlice({
+            images: [
+              ...productImages,
+              {
+                id: crypto.randomUUID(),
+                file: imageFile,
+                base64: reader.result,
+              },
+            ],
+          })
+        );
+      };
+      reader.onerror = (error) =>
+        console.log("failed to convert the image base64:", error);
+    }, 100);
   };
 
   return (
@@ -35,15 +37,18 @@ const ProductImages = () => {
       <div>
         <h3 className="mdFont font-semibold mb-[1rem]">Product Images</h3>
       </div>
-      <div id="product_images" className="grid grid-cols-3 md:grid-cols-1 lg:grid-cols-2">
+      <div
+        id="product_images"
+        className="w-full h-min grid grid-cols-3 md:grid-cols-1 lg:grid-cols-2 gap-[1rem]"
+      >
         {productImages?.map((el) => (
           <div key={el?.id}>
             <label htmlFor="product_image">
-              <Image
+              <img
                 src={el?.base64}
                 width={400}
                 height={400}
-                className="aspect-square w-fit h-fit md:w-full md:h-full object-contain border"
+                className="aspect-square w-full h-auto object-contain border"
                 alt="default-image"
               />
             </label>
@@ -65,7 +70,7 @@ const ProductImages = () => {
               src="/Assets/Images/image-icon-trendy-flat-style-600nw-643080895.webp"
               width={400}
               height={400}
-              className="aspect-square w-fit h-fit md:w-full md:h-full object-contain border"
+              className="aspect-square w-full h-auto object-contain border"
               alt="default-image"
             />
           </label>
