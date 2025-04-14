@@ -7,35 +7,42 @@ import { toast } from "react-toastify";
 
 const ProductImages = () => {
   const dispatch = useDispatch();
-  // redux state
   const { images: productImages } = useSelector((state) => state.product_slice);
 
-  const onChangeImage = async (imageFile) => {
+  const onChangeImage = (imageFile, inputElement) => {
+    if (!imageFile) {
+      toast.error("No file selected!");
+      return;
+    }
+
     toast.success("ONCHANGE FUNCTION CALLED!");
-    setTimeout(() => {
-      const reader = new FileReader();
-      reader.readAsDataURL(imageFile);
-      reader.onload = () => {
-        toast.success("DISPATCHING THE RESULT");
-        dispatch(
-          updateProductSlice({
-            images: [
-              ...productImages,
-              {
-                id: crypto.randomUUID(),
-                file: imageFile,
-                base64: reader.result,
-              },
-            ],
-          })
-        );
-        toast.success("DISPATCHED");
-      };
-      reader.onerror = (error) => {
-        console.log("failed to convert the image base64:", error);
-        toast.error("FAILED TO ADD IMAGE");
-      };
-    }, 100);
+    const reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+
+    reader.onload = () => {
+      toast.success("DISPATCHING THE RESULT");
+      dispatch(
+        updateProductSlice({
+          images: [
+            ...productImages,
+            {
+              id: crypto.randomUUID(),
+              file: imageFile,
+              base64: reader.result,
+            },
+          ],
+        })
+      );
+      toast.success("DISPATCHED");
+      // Reset the input after processing
+      inputElement.value = null;
+    };
+
+    reader.onerror = (error) => {
+      console.error("Failed to convert the image to base64:", error);
+      toast.error("FAILED TO ADD IMAGE");
+      inputElement.value = null;
+    };
   };
 
   return (
@@ -49,29 +56,26 @@ const ProductImages = () => {
       >
         {productImages?.map((el) => (
           <div key={el?.id}>
-            <label htmlFor="product_image">
+            <label htmlFor={`product_image_${el.id}`}>
               <Image
                 src={el?.base64}
                 width={400}
                 height={400}
                 className="aspect-square w-full h-auto object-contain border"
-                alt="default-image"
+                alt="product-image"
               />
             </label>
             <input
-              onChange={(e) => {
-                onChangeImage(e.target.files[0]);
-                e.target.value = null;
-              }}
+              onChange={(e) => onChangeImage(e.target.files[0], e.target)}
               className="hidden"
               type="file"
               name="product_image"
-              id="product_image"
+              id={`product_image_${el.id}`}
             />
           </div>
         ))}
         <div>
-          <label htmlFor="product_image">
+          <label htmlFor="product_image_new">
             <Image
               src="/Assets/Images/image-icon-trendy-flat-style-600nw-643080895.webp"
               width={400}
@@ -81,14 +85,11 @@ const ProductImages = () => {
             />
           </label>
           <input
-            onChange={(e) => {
-              onChangeImage(e.target.files[0]);
-              e.target.value = null;
-            }}
+            onChange={(e) => onChangeImage(e.target.files[0], e.target)}
             className="hidden"
             type="file"
             name="product_image"
-            id="product_image"
+            id="product_image_new"
           />
         </div>
       </div>
