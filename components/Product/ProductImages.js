@@ -11,10 +11,12 @@ const ProductImages = () => {
   const { images: productImages } = useSelector((state) => state.product_slice);
 
   const onChangeImage = async (imageFile) => {
+    toast.success("ONCHANGE FUNCTION CALLED!");
     setTimeout(() => {
       const reader = new FileReader();
       reader.readAsDataURL(imageFile);
       reader.onload = () => {
+        toast.success("DISPATCHING THE RESULT");
         dispatch(
           updateProductSlice({
             images: [
@@ -27,9 +29,11 @@ const ProductImages = () => {
             ],
           })
         );
+        toast.success("DISPATCHED");
       };
       reader.onerror = (error) => {
         console.log("failed to convert the image base64:", error);
+        toast.error("FAILED TO ADD IMAGE");
       };
     }, 100);
   };
@@ -79,7 +83,6 @@ const ProductImages = () => {
           <input
             onChange={(e) => {
               onChangeImage(e.target.files[0]);
-              toast.success("CHANGED!")
               e.target.value = null;
             }}
             className="hidden"
