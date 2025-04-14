@@ -1,5 +1,6 @@
 "use client";
 import { updateProductSlice } from "@/Redux/Slices/ProductSlice";
+import { generateRandomId } from "@/utils/generateRandomId";
 import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +28,7 @@ const ProductImages = () => {
             images: [
               ...productImages,
               {
-                id: crypto.randomUUID(),
+                id: generateRandomId(),
                 file: imageFile,
                 base64: reader.result,
               },
