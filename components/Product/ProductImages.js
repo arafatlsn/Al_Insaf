@@ -21,21 +21,26 @@ const ProductImages = () => {
 
     reader.onload = () => {
       toast.success("DISPATCHING THE RESULT");
-      dispatch(
-        updateProductSlice({
-          images: [
-            ...productImages,
-            {
-              id: crypto.randomUUID(),
-              file: imageFile,
-              base64: reader.result,
-            },
-          ],
-        })
-      );
-      toast.success("DISPATCHED");
+      try {
+        dispatch(
+          updateProductSlice({
+            images: [
+              ...productImages,
+              {
+                id: crypto.randomUUID(),
+                file: imageFile,
+                base64: reader.result,
+              },
+            ],
+          })
+        );
+        toast.success("DISPATCHED");
+        inputElement.value = null;
+      } catch (error) {
+        console.error("Dispatch failed:", error);
+        toast.error("DISPATCH FAILED: " + error.message);
+      }
       // Reset the input after processing
-      inputElement.value = null;
     };
 
     reader.onerror = (error) => {
