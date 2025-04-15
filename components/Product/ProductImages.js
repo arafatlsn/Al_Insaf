@@ -5,10 +5,46 @@ import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import TrashIcon from "../Icons/TrashIcon";
 
 const ProductImages = () => {
   const dispatch = useDispatch();
   const { images: productImages } = useSelector((state) => state.product_slice);
+
+  const removeImage = (index) => {
+    const removedImage = productImages?.filter((image, i) => i !== index);
+    dispatch(updateProductSlice({images: removedImage}))
+  };
+
+  const changeImage = (imageFile, inputElement, index) => {
+    if (!imageFile) {
+      toast.error("No file selected!");
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+
+    reader.onload = () => {
+      const newImages = [...productImages];
+      newImages[index] = {
+        id: generateRandomId(),
+        file: imageFile,
+        base64: reader.result,
+      };
+      dispatch(
+        updateProductSlice({
+          images: newImages,
+        })
+      );
+      inputElement.value = null;
+    };
+
+    reader.onerror = (error) => {
+      console.error("Failed to convert the image to base64:", error);
+      toast.error("FAILED TO CONVERT BASE64: ", error?.message);
+      inputElement.value = null;
+    };
+  };
 
   const onChangeImage = (imageFile, inputElement) => {
     if (!imageFile) {
@@ -50,19 +86,25 @@ const ProductImages = () => {
         id="product_images"
         className="w-full h-min grid grid-cols-3 md:grid-cols-1 lg:grid-cols-2 gap-[1rem]"
       >
-        {productImages?.map((el) => (
-          <div key={el?.id}>
+        {productImages?.map((el, index) => (
+          <div
+            key={el?.id}
+            className="aspect-square w-full h-auto overflow-hidden relative"
+          >
+            <button type="button" onClick={() => removeImage(index)} className="absolute top-[3px] right-[3px] z-[1] px-[3px] py-[3px] text-failed bg-foreground border-[.5px] rounded-[4px]">
+              <TrashIcon className={"size-4"} /> 
+            </button>
             <label htmlFor={`product_image_${el.id}`}>
               <Image
                 src={el?.base64}
                 width={400}
                 height={400}
-                className="aspect-square w-full h-auto object-contain border overflow-hidden"
+                className="w-full h-full object-contain border"
                 alt="product-image"
               />
             </label>
             <input
-              onChange={(e) => onChangeImage(e.target.files[0], e.target)}
+              onChange={(e) => changeImage(e.target.files[0], e.target, index)}
               className="hidden"
               type="file"
               name="product_image"
