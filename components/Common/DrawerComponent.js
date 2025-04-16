@@ -53,7 +53,7 @@ export function DrawerDemo() {
           ))}
         </ul>
         {session?.status === "authenticated" && (
-          <div className="w-full flex items-center gap-[.5rem] px-[.5rem] mb-[1rem]">
+          <div className="w-full flex items-center gap-[.5rem] px-[.5rem] mb-[3rem]">
             <div className="max-w-[40px] min-w-[40px] max-h-[40px] min-h-[40px] rounded-[50%]">
               <Image
                 title={user?.name}
