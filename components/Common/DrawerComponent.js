@@ -14,10 +14,12 @@ import Link from "next/link";
 import { sidebarOptions } from "@/utils/StaticData";
 import { usePathname } from "next/navigation";
 import ThreeDotsIcon from "../Icons/ThreeDotsIcon";
+import { signOut, useSession } from "next-auth/react";
 
 export function DrawerDemo() {
   const pathname = usePathname()?.split("/")[1];
-
+  const session = useSession();
+  const user = session?.data?.user;
   return (
     <Drawer direction="right">
       <DrawerTrigger className="bg-background" asChild>
@@ -25,13 +27,13 @@ export function DrawerDemo() {
           <ThreeDotsIcon />
         </button>
       </DrawerTrigger>
-      <DrawerContent className="bg-background">
+      <DrawerContent className="h-screen flex flex-col bg-background">
         <DrawerHeader>
           <DrawerTitle>
             <Image src={"/logo.jpg"} width={60} height={60} alt="logo" />
           </DrawerTitle>
         </DrawerHeader>
-        <ul className="flex flex-col w-full mt-[1rem]">
+        <ul className="grow flex flex-col w-full mt-[1rem]">
           {sidebarOptions?.map((el) => (
             <Link key={el?.id} href={el?.route}>
               <DrawerClose className="w-full bg-background">
@@ -50,6 +52,34 @@ export function DrawerDemo() {
             </Link>
           ))}
         </ul>
+        {session?.status === "authenticated" && (
+          <div className="w-full flex items-center gap-[.5rem] px-[.5rem] mb-[1rem]">
+            <div className="max-w-[40px] min-w-[40px] max-h-[40px] min-h-[40px] rounded-[50%]">
+              <Image
+                title={user?.name}
+                width={40}
+                height={40}
+                src={user?.image}
+                alt={`${user?.name}'s profile`}
+                className="w-full h-full rounded-[50%]"
+              />
+            </div>
+            <div className="w-full overflow-hidden">
+              <h5
+                title={user?.name}
+                className="w-full text-[14px] uppercase font-semibold leading-[2ex] truncate"
+              >
+                {user?.name}
+              </h5>
+              <button
+                onClick={() => signOut()}
+                className="text-[12px] bg-failed px-[.5rem] uppercase font-semibold text-white rounded-[3px]"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        )}
       </DrawerContent>
     </Drawer>
   );
