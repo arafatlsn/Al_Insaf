@@ -14,17 +14,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div className="w-full max-w-[1280px] mx-auto flex relative">
-          <div className="hidden md:block md:min-w-[180px] md:max-w-[180px] xl:min-w-[220px] xl:max-w-[220px] h-screen border-r-[1px] border sticky top-0">
-            <SideBar />
-          </div>
-          <div className="grow relative">
-            <NavBar />
-            <div className="w-full min-h-screen smXYPadding bg-foreground">
-              <IndexWrapper>{children}</IndexWrapper>
+        <IndexWrapper>
+          <div className="w-full max-w-[1280px] mx-auto flex relative">
+            <div>
+              <SideBar />
+            </div>
+            <div className="grow relative">
+              <NavBar />
+              <div className="w-full min-h-screen smXYPadding bg-foreground">
+                {children}
+              </div>
             </div>
           </div>
-        </div>
+        </IndexWrapper>
       </body>
     </html>
   );

@@ -88,7 +88,8 @@ const CreateProduct = () => {
       e.target.reset();
       dispatch(resetProductSlice());
     } catch (error) {
-      console.log("creating product error: ", error);
+      toast.error("Failed to create product", error?.message)
+      console.log("Failed to create product: ", error?.message);
     }
   };
   return (
